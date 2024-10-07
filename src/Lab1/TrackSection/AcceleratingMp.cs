@@ -23,22 +23,10 @@ public class AcceleratingMp : IBaseMp
 
     public ResultTypes SectionProcessing(Train train)
     {
-        double neededLength = Length;
+        if (!train.ApplyPower(_power)) return new ResultTypes.FailureBigPower();
 
-        if (train.ApplyPower(_power) is not ResultTypes.Success) return new ResultTypes.FailureBigPower();
+        if (!IsPassing(train)) return new ResultTypes.FailurePass();
 
-        while (neededLength > 0)
-        {
-            if (!IsPassing(train)) return new ResultTypes.FailurePass();
-
-            double resSpeed = train.Speed + (train.Acceleration * train.Accuracy);
-            double completedDist = resSpeed * train.Accuracy;
-            neededLength -= completedDist;
-
-            train.UpdateSpeed();
-            train.Time += train.Accuracy;
-        }
-
-        return new ResultTypes.Success();
+        return train.Move(Length);
     }
 }

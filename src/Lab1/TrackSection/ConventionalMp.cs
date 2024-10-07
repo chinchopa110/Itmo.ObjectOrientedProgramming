@@ -20,17 +20,10 @@ public class ConventionalMp : IBaseMp
 
     public ResultTypes SectionProcessing(Train train)
     {
-        double neededLength = Length;
+        train.ApplyPower(0);
 
-        while (neededLength > 0)
-        {
-            double resSpeed = train.Speed;
-            double completedDist = resSpeed * train.Accuracy;
-            neededLength -= completedDist;
+        if (!IsPassing(train)) return new ResultTypes.FailurePass();
 
-            train.Time += train.Accuracy;
-        }
-
-        return new ResultTypes.Success();
+        return train.Move(Length);
     }
 }

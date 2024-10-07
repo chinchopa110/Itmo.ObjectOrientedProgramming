@@ -23,8 +23,6 @@ public class Route
     {
         foreach (ISection obj in _objects)
         {
-            if (!obj.IsPassing(_train)) return new ResultTypes.FailurePass();
-
             ResultTypes resultOnSection = obj.SectionProcessing(_train);
             if (resultOnSection is not ResultTypes.Success) return resultOnSection;
         }

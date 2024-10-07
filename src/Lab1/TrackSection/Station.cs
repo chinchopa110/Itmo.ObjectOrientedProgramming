@@ -10,13 +10,10 @@ public class Station : ISection
 
     private readonly double _maxSpeed;
 
-    private readonly double _massPassenger;
-
-    public Station(double workload, double maxSpeed, double massPassenger)
+    public Station(double workload, double maxSpeed)
     {
         _workload = workload;
         _maxSpeed = maxSpeed;
-        _massPassenger = massPassenger;
     }
 
     public bool IsPassing(Train train)
@@ -28,14 +25,9 @@ public class Station : ISection
 
     public ResultTypes SectionProcessing(Train train)
     {
-        if (train.UpdateMass(_massPassenger) is not ResultTypes.Success) return new ResultTypes.FailureNegWeight();
+        if (!IsPassing(train)) return new ResultTypes.FailurePass();
 
-        double currworkload = _workload;
-        while (currworkload > 0)
-        {
-            train.Time++;
-            currworkload -= 5;
-        }
+        if (train.LoadPassengers(_workload) is not ResultTypes.Success) return new ResultTypes.FailureNegWeight();
 
         return new ResultTypes.Success();
     }

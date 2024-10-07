@@ -43,11 +43,11 @@ public class RouteTests
     {
         var train = new Train(400, 1000, 1);
         var acceleratingMp = new AcceleratingMp(150, 400);
-        var station = new Station(15, 20, 1);
+        var station = new Station(15, 20);
         var conventionalMp = new ConventionalMp(100);
         ResultTypes expresult = new ResultTypes.Success();
 
-        var route = new Route(train, 20, acceleratingMp, conventionalMp, station, conventionalMp);
+        var route = new Route(train, 30, acceleratingMp, conventionalMp, station, conventionalMp);
 
         ResultTypes result = route.Passing();
 
@@ -59,7 +59,7 @@ public class RouteTests
     {
         var train = new Train(400, 1000, 1);
         var acceleratingMp = new AcceleratingMp(350, 400);
-        var station = new Station(15, 20, 1);
+        var station = new Station(15, 20);
         var conventionalMp = new ConventionalMp(100);
         ResultTypes expresult = new ResultTypes.FailurePass();
 
@@ -75,7 +75,7 @@ public class RouteTests
     {
         var train = new Train(400, 1000, 1);
         var acceleratingMp = new AcceleratingMp(150, 400);
-        var station = new Station(15, 20, 1);
+        var station = new Station(15, 30);
         var conventionalMp = new ConventionalMp(100);
         ResultTypes expresult = new ResultTypes.FailureBigSpeed();
 
@@ -93,12 +93,12 @@ public class RouteTests
         var acceleratingMp1 = new AcceleratingMp(150, 800);
         var conventionalMp = new ConventionalMp(100);
         var acceleratingMp2 = new AcceleratingMp(150, -600);
-        var station = new Station(15, 20, 1);
+        var station = new Station(15, 30);
         ResultTypes expresult = new ResultTypes.Success();
 
         var route = new Route(
             train,
-            20,
+            30,
             acceleratingMp1,
             conventionalMp,
             acceleratingMp2,

@@ -10,7 +10,7 @@ public class Train
 
     public double Acceleration { get; private set; }
 
-    public double Time { get; set; }
+    public double Time { get; private set; }
 
     public int Accuracy { get; }
 
@@ -36,12 +36,19 @@ public class Train
         Accuracy = accuracy;
     }
 
-    public ResultTypes UpdateMass(double massPassenger)
+    public ResultTypes LoadPassengers(double workload)
     {
-        Mass += massPassenger;
+        Mass += workload;
 
         if (Mass < _massTrain)
             return new ResultTypes.FailureNegWeight();
+
+        workload = double.Abs(workload);
+        while (workload > 0)
+        {
+            workload -= 5 * Accuracy;
+            Time += Accuracy;
+        }
 
         return new ResultTypes.Success();
     }
@@ -51,11 +58,28 @@ public class Train
         Speed += Acceleration * Accuracy;
     }
 
-    public ResultTypes ApplyPower(double power)
+    public bool ApplyPower(double power)
     {
-        if (!CheckPower(power)) return new ResultTypes.FailureBigPower();
+        if (!CheckPower(power)) return false;
 
         Acceleration = power / Mass;
+
+        return true;
+    }
+
+    public ResultTypes Move(double distance)
+    {
+        while (distance > 0)
+        {
+            if (Speed < 0) return new ResultTypes.FailurePass();
+
+            double resSpeed = Speed + (Acceleration * Accuracy);
+            double completedDist = resSpeed * Accuracy;
+            distance -= completedDist;
+
+            UpdateSpeed();
+            Time += Accuracy;
+        }
 
         return new ResultTypes.Success();
     }
