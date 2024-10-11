@@ -1,29 +1,23 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Processing;
+using Itmo.ObjectOrientedProgramming.Lab1.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab1.TrackSection.Interfaces;
 using Itmo.ObjectOrientedProgramming.Lab1.Transport;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.TrackSection;
 
-public class ConventionalMp : IBaseMp
+public class ConventionalMagneticPath : IBaseMagneticPath
 {
     public double Length { get; }
 
-    public ConventionalMp(double length)
+    public ConventionalMagneticPath(double length)
     {
         Length = length;
     }
 
-    public bool IsPassing(Train train)
-    {
-        return train.Speed > 0;
-    }
-
-    public ResultTypes SectionProcessing(Train train)
+    public Result SectionProcessing(Train train)
     {
         train.ApplyPower(0);
-
-        if (!IsPassing(train)) return new ResultTypes.FailurePass();
-
+        if (train.TrainSpeed.Value == 0) return new Result.Failure(new Stopped("The train stopped"));
         return train.Move(Length);
     }
 }

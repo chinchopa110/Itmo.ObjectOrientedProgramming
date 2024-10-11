@@ -1,32 +1,25 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Processing;
+using Itmo.ObjectOrientedProgramming.Lab1.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab1.TrackSection.Interfaces;
 using Itmo.ObjectOrientedProgramming.Lab1.Transport;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.TrackSection;
 
-public class AcceleratingMp : IBaseMp
+public class AcceleratingMagneticPath : IBaseMagneticPath
 {
     public double Length { get; }
 
     private readonly double _power;
 
-    public AcceleratingMp(double length, double power)
+    public AcceleratingMagneticPath(double length, double power)
     {
         Length = length;
         _power = power;
     }
 
-    public bool IsPassing(Train train)
+    public Result SectionProcessing(Train train)
     {
-        return train.Speed >= 0;
-    }
-
-    public ResultTypes SectionProcessing(Train train)
-    {
-        if (!train.ApplyPower(_power)) return new ResultTypes.FailureBigPower();
-
-        if (!IsPassing(train)) return new ResultTypes.FailurePass();
-
+        if (!train.ApplyPower(_power)) return new Result.Failure(new BigPower("High power accelerating rails"));
         return train.Move(Length);
     }
 }

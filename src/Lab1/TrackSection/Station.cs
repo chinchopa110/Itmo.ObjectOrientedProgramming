@@ -1,4 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Processing;
+using Itmo.ObjectOrientedProgramming.Lab1.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab1.TrackSection.Interfaces;
 using Itmo.ObjectOrientedProgramming.Lab1.Transport;
 
@@ -16,19 +17,13 @@ public class Station : ISection
         _maxSpeed = maxSpeed;
     }
 
-    public bool IsPassing(Train train)
+    public Result SectionProcessing(Train train)
     {
-        if (train.Speed <= _maxSpeed) return true;
+        if (train.TrainSpeed.Value > _maxSpeed) return new Result.Failure(new BigSpeed("Big speed on station"));
 
-        return false;
-    }
+        if (!train.LoadPassengers(_workload))
+            return new Result.Failure(new NegWeight("The mass of passengers cannot be negative"));
 
-    public ResultTypes SectionProcessing(Train train)
-    {
-        if (!IsPassing(train)) return new ResultTypes.FailurePass();
-
-        if (train.LoadPassengers(_workload) is not ResultTypes.Success) return new ResultTypes.FailureNegWeight();
-
-        return new ResultTypes.Success();
+        return new Result.Success(train.Time);
     }
 }

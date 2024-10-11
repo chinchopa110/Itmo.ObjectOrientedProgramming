@@ -1,86 +1,74 @@
 using Itmo.ObjectOrientedProgramming.Lab1.Processing;
+using Itmo.ObjectOrientedProgramming.Lab1.Processing.Errors;
+using Itmo.ObjectOrientedProgramming.Lab1.Transport.Physics;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Transport;
 
 public class Train
 {
-    public double Mass { get; private set; }
-
-    public double Speed { get; private set; }
-
-    public double Acceleration { get; private set; }
-
-    public double Time { get; private set; }
-
-    public int Accuracy { get; }
-
-    private readonly double _maxPower;
+    private readonly int _accuracy;
 
     private readonly double _massTrain;
 
-    private bool CheckPower(double power)
-    {
-        return power <= _maxPower;
-    }
+    private readonly double _maxPower;
+
+    public Speed TrainSpeed { get; private set; }
+
+    public Acceleration TrainAcceleration { get; private set; }
+
+    public Mass TrainMass { get; private set; }
+
+    public TimeSpan Time { get; private set; }
 
     public Train(double massTrain, double maxPower, int accuracy)
     {
-        Mass = massTrain;
+        _accuracy = accuracy;
         _massTrain = massTrain;
-
-        Speed = 0;
-        Acceleration = 0;
-        Time = 0;
-
         _maxPower = maxPower;
-        Accuracy = accuracy;
+
+        TrainAcceleration = new Acceleration(0);
+        TrainSpeed = new Speed(0);
+        TrainMass = new Mass(_massTrain);
     }
 
-    public ResultTypes LoadPassengers(double workload)
+    public bool LoadPassengers(double workload)
     {
-        Mass += workload;
+        TrainMass += workload;
 
-        if (Mass < _massTrain)
-            return new ResultTypes.FailureNegWeight();
+        if (TrainMass.Value < _massTrain)
+            return false;
 
         workload = double.Abs(workload);
         while (workload > 0)
         {
-            workload -= 5 * Accuracy;
-            Time += Accuracy;
+            workload -= 5 * _accuracy;
+            Time += TimeSpan.FromMilliseconds(_accuracy);
         }
-
-        return new ResultTypes.Success();
-    }
-
-    public void UpdateSpeed()
-    {
-        Speed += Acceleration * Accuracy;
-    }
-
-    public bool ApplyPower(double power)
-    {
-        if (!CheckPower(power)) return false;
-
-        Acceleration = power / Mass;
 
         return true;
     }
 
-    public ResultTypes Move(double distance)
+    public bool ApplyPower(double power)
+    {
+        if (power > _maxPower) return false;
+        TrainAcceleration = new Acceleration(power / TrainMass.Value);
+        return true;
+    }
+
+    public Result Move(double distance)
     {
         while (distance > 0)
         {
-            if (Speed < 0) return new ResultTypes.FailurePass();
+            if (TrainSpeed.Value < 0) return new Result.Failure(new Stopped("The train stopped"));
 
-            double resSpeed = Speed + (Acceleration * Accuracy);
-            double completedDist = resSpeed * Accuracy;
+            double resSpeed = TrainSpeed.Value + (TrainAcceleration.Value * _accuracy);
+            double completedDist = resSpeed * _accuracy;
             distance -= completedDist;
 
-            UpdateSpeed();
-            Time += Accuracy;
+            TrainSpeed = new Speed(resSpeed);
+            Time += TimeSpan.FromMinutes(_accuracy);
         }
 
-        return new ResultTypes.Success();
+        return new Result.Success(Time);
     }
 }
