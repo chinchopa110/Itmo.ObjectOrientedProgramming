@@ -5,19 +5,19 @@ using Itmo.ObjectOrientedProgramming.Lab1.Transport;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.TrackSection;
 
-public class ConventionalMagneticPath : IBaseMagneticPath
+public class ConventionalMagneticPath : ISection
 {
-    public double Length { get; }
+    private readonly double _length;
 
     public ConventionalMagneticPath(double length)
     {
-        Length = length;
+        _length = length;
     }
 
     public Result SectionProcessing(Train train)
     {
         train.ApplyPower(0);
         if (train.TrainSpeed.Value == 0) return new Result.Failure(new Stopped("The train stopped"));
-        return train.Move(Length);
+        return train.Move(_length);
     }
 }

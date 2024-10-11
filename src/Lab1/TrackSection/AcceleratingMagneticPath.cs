@@ -5,21 +5,20 @@ using Itmo.ObjectOrientedProgramming.Lab1.Transport;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.TrackSection;
 
-public class AcceleratingMagneticPath : IBaseMagneticPath
+public class AcceleratingMagneticPath : ISection
 {
-    public double Length { get; }
-
+    private readonly double _length;
     private readonly double _power;
 
     public AcceleratingMagneticPath(double length, double power)
     {
-        Length = length;
+        _length = length;
         _power = power;
     }
 
     public Result SectionProcessing(Train train)
     {
         if (!train.ApplyPower(_power)) return new Result.Failure(new BigPower("High power accelerating rails"));
-        return train.Move(Length);
+        return train.Move(_length);
     }
 }

@@ -79,7 +79,8 @@ public class RouteTests
         var acceleratingMp = new AcceleratingMagneticPath(150, 400);
         var station = new Station(15, 17);
         var conventionalMp = new ConventionalMagneticPath(100);
-        var sections = ImmutableArray.Create<ISection>(acceleratingMp, conventionalMp, station, conventionalMp);
+        var sections =
+            ImmutableArray.Create<ISection>(acceleratingMp, conventionalMp, station, conventionalMp);
 
         var route = new Route(16, sections);
 
