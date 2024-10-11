@@ -1,4 +1,4 @@
-using Itmo.ObjectOrientedProgramming.Lab1.Processing.Errors;
+using Itmo.ObjectOrientedProgramming.Lab1.Processing.Errors.Interfaces;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Processing;
 
