@@ -17,13 +17,19 @@ public class Station : ISection
         _maxSpeed = maxSpeed;
     }
 
-    public Result SectionProcessing(Train train)
+    public TheResultOfThePassageRoute SectionProcessing(Train train)
     {
-        if (train.TrainSpeed.Value > _maxSpeed) return new Result.Failure(new BigSpeed("Big speed on station"));
+        if (train.Speed > _maxSpeed)
+            return new TheResultOfThePassageRoute.Failure(new SpeedLimitExceeded("Big speed on station"));
 
-        if (!train.LoadPassengers(_workload))
-            return new Result.Failure(new NegWeight("The mass of passengers cannot be negative"));
+        TheResultOfTrainMoving moveResult = train.LoadPassengers(_workload);
 
-        return new Result.Success(train.Time);
+        if (moveResult is TheResultOfTrainMoving.SomethingWrong somethingWrong)
+            return new TheResultOfThePassageRoute.Failure(somethingWrong.Err);
+
+        if (moveResult is TheResultOfTrainMoving.CompleteSection completeSection)
+            return new TheResultOfThePassageRoute.Success(completeSection.Time);
+
+        return new TheResultOfThePassageRoute.Failure(new UnknownError("Unknown error"));
     }
 }

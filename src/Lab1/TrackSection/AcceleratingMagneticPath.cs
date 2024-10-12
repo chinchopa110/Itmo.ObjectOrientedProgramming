@@ -16,9 +16,20 @@ public class AcceleratingMagneticPath : ISection
         _power = power;
     }
 
-    public Result SectionProcessing(Train train)
+    public TheResultOfThePassageRoute SectionProcessing(Train train)
     {
-        if (!train.ApplyPower(_power)) return new Result.Failure(new BigPower("High power accelerating rails"));
-        return train.Move(_length);
+        if (!train.ApplyPower(_power))
+            return new TheResultOfThePassageRoute.Failure(new PowerLimitExceeded("High power accelerating rails"));
+
+        TheResultOfTrainMoving moveResult = train.Move(_length);
+        train.ApplyPower(0);
+
+        if (moveResult is TheResultOfTrainMoving.SomethingWrong somethingWrong)
+            return new TheResultOfThePassageRoute.Failure(somethingWrong.Err);
+
+        if (moveResult is TheResultOfTrainMoving.CompleteSection completeSection)
+            return new TheResultOfThePassageRoute.Success(completeSection.Time);
+
+        return new TheResultOfThePassageRoute.Failure(new UnknownError("Unknown error"));
     }
 }

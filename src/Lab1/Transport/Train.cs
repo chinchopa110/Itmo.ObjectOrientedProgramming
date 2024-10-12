@@ -12,13 +12,11 @@ public class Train
 
     private readonly double _maxPower;
 
-    public Speed TrainSpeed { get; private set; }
+    private double _acceleration;
 
-    public Acceleration TrainAcceleration { get; private set; }
+    private Mass _trainMass;
 
-    public Mass TrainMass { get; private set; }
-
-    public TimeSpan Time { get; private set; }
+    public double Speed { get; private set; }
 
     public Train(double massTrain, double maxPower, int accuracy)
     {
@@ -26,49 +24,52 @@ public class Train
         _massTrain = massTrain;
         _maxPower = maxPower;
 
-        TrainAcceleration = new Acceleration(0);
-        TrainSpeed = new Speed(0);
-        TrainMass = new Mass(_massTrain);
+        Speed = 0;
+        _acceleration = 0;
+        _trainMass = new Mass(_massTrain, _massTrain);
     }
 
-    public bool LoadPassengers(double workload)
+    public TheResultOfTrainMoving LoadPassengers(double workload)
     {
-        TrainMass += workload;
+        var time = TimeSpan.FromMinutes(0);
+        _trainMass = new Mass(_massTrain + _trainMass.Value + workload, _massTrain);
 
-        if (TrainMass.Value < _massTrain)
-            return false;
+        if (_trainMass.IsNegativeMass())
+            return new TheResultOfTrainMoving.SomethingWrong(new NegativePassengerWeight("The mass is negative"));
 
         workload = double.Abs(workload);
         while (workload > 0)
         {
             workload -= 5 * _accuracy;
-            Time += TimeSpan.FromMilliseconds(_accuracy);
+            time += TimeSpan.FromMinutes(_accuracy);
         }
 
-        return true;
+        return new TheResultOfTrainMoving.CompleteSection(time);
     }
 
     public bool ApplyPower(double power)
     {
         if (power > _maxPower) return false;
-        TrainAcceleration = new Acceleration(power / TrainMass.Value);
+        _acceleration = power / _trainMass.Value;
         return true;
     }
 
-    public Result Move(double distance)
+    public TheResultOfTrainMoving Move(double distance)
     {
+        var time = TimeSpan.FromMinutes(0);
         while (distance > 0)
         {
-            if (TrainSpeed.Value < 0) return new Result.Failure(new Stopped("The train stopped"));
+            if (Speed < 0)
+                return new TheResultOfTrainMoving.SomethingWrong(new SectionNotPassed("The train stopped"));
 
-            double resSpeed = TrainSpeed.Value + (TrainAcceleration.Value * _accuracy);
+            double resSpeed = Speed + (_acceleration * _accuracy);
             double completedDist = resSpeed * _accuracy;
             distance -= completedDist;
 
-            TrainSpeed = new Speed(resSpeed);
-            Time += TimeSpan.FromMinutes(_accuracy);
+            Speed = resSpeed;
+            time += TimeSpan.FromMinutes(_accuracy);
         }
 
-        return new Result.Success(Time);
+        return new TheResultOfTrainMoving.CompleteSection(time);
     }
 }

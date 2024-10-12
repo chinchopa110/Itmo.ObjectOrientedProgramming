@@ -2,31 +2,35 @@ using Itmo.ObjectOrientedProgramming.Lab1.Processing;
 using Itmo.ObjectOrientedProgramming.Lab1.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab1.TrackSection.Interfaces;
 using Itmo.ObjectOrientedProgramming.Lab1.Transport;
-using System.Collections.Immutable;
 
 namespace Itmo.ObjectOrientedProgramming.Lab1.Path;
 
 public class Route
 {
-    private readonly ImmutableArray<ISection> _objects;
+    private readonly IReadOnlyCollection<ISection> _sections;
     private readonly double _maxfinalspeed;
 
-    public Route(double maxfinalspeed, ImmutableArray<ISection> objects)
+    public Route(double maxfinalspeed, IReadOnlyCollection<ISection> sections)
     {
-        _objects = ImmutableArray.CreateRange(objects);
+        _sections = sections;
         _maxfinalspeed = maxfinalspeed;
     }
 
-    public Result Pass(Train train)
+    public TheResultOfThePassageRoute Pass(Train train)
     {
-        foreach (ISection obj in _objects)
+        var time = TimeSpan.FromMinutes(0);
+        foreach (ISection obj in _sections)
         {
-            Result resultOnSection = obj.SectionProcessing(train);
-            if (resultOnSection is not Result.Success) return resultOnSection;
+            TheResultOfThePassageRoute resultOnSection = obj.SectionProcessing(train);
+            if (resultOnSection is not TheResultOfThePassageRoute.Success)
+                return resultOnSection;
+
+            if (resultOnSection is TheResultOfThePassageRoute.Success completeSection)
+                time += completeSection.Time;
         }
 
-        return train.TrainSpeed.Value > _maxfinalspeed
-            ? new Result.Failure(new BigSpeed("Big speed at the end"))
-            : new Result.Success(train.Time);
+        return train.Speed > _maxfinalspeed
+            ? new TheResultOfThePassageRoute.Failure(new SpeedLimitExceeded("Big speed at the end"))
+            : new TheResultOfThePassageRoute.Success(time);
     }
 }

@@ -5,5 +5,5 @@ namespace Itmo.ObjectOrientedProgramming.Lab1.TrackSection.Interfaces;
 
 public interface ISection
 {
-    public Result SectionProcessing(Train train);
+    public TheResultOfThePassageRoute SectionProcessing(Train train);
 }

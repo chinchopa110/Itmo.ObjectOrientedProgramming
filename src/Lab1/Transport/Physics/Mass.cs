@@ -4,23 +4,16 @@ public class Mass
 {
     public double Value { get; }
 
-    public Mass(double value)
+    private readonly double _minMass;
+
+    public Mass(double value, double minMass)
     {
         Value = value;
+        _minMass = minMass;
     }
 
-    public static Mass operator +(Mass m1, Mass m2)
+    public bool IsNegativeMass()
     {
-        return new Mass(m1.Value + m2.Value);
-    }
-
-    public static Mass operator +(Mass m, double additionalValue)
-    {
-        return new Mass(m.Value + additionalValue);
-    }
-
-    public static Mass operator +(double additionalValue, Mass m)
-    {
-        return new Mass(m.Value + additionalValue);
+        return Value < _minMass;
     }
 }

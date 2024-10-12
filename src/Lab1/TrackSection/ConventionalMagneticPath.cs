@@ -14,10 +14,19 @@ public class ConventionalMagneticPath : ISection
         _length = length;
     }
 
-    public Result SectionProcessing(Train train)
+    public TheResultOfThePassageRoute SectionProcessing(Train train)
     {
-        train.ApplyPower(0);
-        if (train.TrainSpeed.Value == 0) return new Result.Failure(new Stopped("The train stopped"));
-        return train.Move(_length);
+        if (train.Speed == 0)
+            return new TheResultOfThePassageRoute.Failure(new SectionNotPassed("The train stopped"));
+
+        TheResultOfTrainMoving moveResult = train.Move(_length);
+
+        if (moveResult is TheResultOfTrainMoving.SomethingWrong somethingWrong)
+            return new TheResultOfThePassageRoute.Failure(somethingWrong.Err);
+
+        if (moveResult is TheResultOfTrainMoving.CompleteSection completeSection)
+            return new TheResultOfThePassageRoute.Success(completeSection.Time);
+
+        return new TheResultOfThePassageRoute.Failure(new UnknownError("Unknown error"));
     }
 }
