@@ -1,10 +1,11 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
+using Itmo.ObjectOrientedProgramming.Lab2.Prototype;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Labs;
 
-public class LabWork
+public class LabWork : IPrototype<LabWork>
 {
     public string Name { get; private set; }
 
@@ -69,5 +70,12 @@ public class LabWork
         }
 
         return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+    }
+
+    public LabWork Inherit(int newId)
+    {
+        var lab = new LabWork(Name, newId, Balls, Description, Criteria, Author, Id);
+
+        return lab;
     }
 }

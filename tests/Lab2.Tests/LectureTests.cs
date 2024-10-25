@@ -85,7 +85,7 @@ public class LectureTests
         Lecture lecture = lectureBuilder.Build();
 
         // Act
-        Lecture lecture2 = lectureBuilder.SetLecture(lecture, 228).Build();
+        Lecture lecture2 = lecture.Inherit(228);
 
         // Assert
         Assert.Equal(lecture.Id, lecture2.ParentId);

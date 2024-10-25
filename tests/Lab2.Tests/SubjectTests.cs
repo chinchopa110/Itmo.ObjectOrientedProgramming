@@ -39,11 +39,10 @@ public class SubjectTests
         // Act
         if (subject != null)
         {
-            SubjectBuildResult result = new SubjectBuilder().SetSubject(subject, 228).Build();
+            Subject subject2 = subject.Inherit(1337);
 
             // Assert
-            if (result is SubjectBuildResult.Success success)
-                Assert.Equal(success.Subject.ParentId, subject.Id);
+            Assert.Equal(subject2.ParentId, subject.Id);
         }
     }
 
@@ -60,7 +59,7 @@ public class SubjectTests
             .SetCriteria("This is a criteria")
             .SetAuthor(user);
         LabWork labWork1 = labWorkBuilder.Build();
-        LabWork labWork2 = labWorkBuilder.SetLabWork(labWork1, 3333).Build();
+        LabWork labWork2 = labWork1.Inherit(228);
 
         var lectureBuilder = new LectureBuilder();
         lectureBuilder.SetName("L1")
@@ -97,7 +96,7 @@ public class SubjectTests
             .SetCriteria("This is a criteria")
             .SetAuthor(user);
         LabWork labWork1 = labWorkBuilder.Build();
-        LabWork labWork2 = labWorkBuilder.SetLabWork(labWork1, 3333).Build();
+        LabWork labWork2 = labWork1.Inherit(1337);
 
         var lectureBuilder = new LectureBuilder();
         lectureBuilder.SetName("L1")

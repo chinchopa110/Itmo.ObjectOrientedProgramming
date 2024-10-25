@@ -15,7 +15,6 @@ public class SubjectBuilder
     private int _id;
     private IVerification? _verification;
     private SingleUser? _author;
-    private int _parentId;
 
     public SubjectBuilder SetName(string name)
     {
@@ -53,24 +52,6 @@ public class SubjectBuilder
         return this;
     }
 
-    public SubjectBuilder SetSubject(Subject existingSubject, int id)
-    {
-        _name = existingSubject.Name;
-        _id = id;
-
-        _labs.Clear();
-        foreach (LabWork lab in existingSubject.Labs) _labs.Add(lab);
-
-        _lectures.Clear();
-        foreach (Lecture lecture in existingSubject.Lectures) _lectures.Add(lecture);
-
-        _author = existingSubject.Author;
-        _verification = existingSubject.Verification;
-        _parentId = existingSubject.Id;
-
-        return this;
-    }
-
     public SubjectBuildResult Build()
     {
         int totalPoints = _labs.Sum(lab => lab.Balls);
@@ -85,8 +66,7 @@ public class SubjectBuilder
             _labs,
             _lectures,
             _author ?? throw new ArgumentNullException(nameof(_author)),
-            _verification ?? throw new ArgumentNullException(nameof(_verification)),
-            _parentId);
+            _verification ?? throw new ArgumentNullException(nameof(_verification)));
 
         return new SubjectBuildResult.Success(subject);
     }

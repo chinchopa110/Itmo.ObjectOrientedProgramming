@@ -10,7 +10,6 @@ public class LabWorkBuilder
     private string? _description;
     private string? _criteria;
     private SingleUser? _author;
-    private int _parentId;
 
     public LabWorkBuilder SetName(string name)
     {
@@ -48,19 +47,6 @@ public class LabWorkBuilder
         return this;
     }
 
-    public LabWorkBuilder SetLabWork(LabWork labWork, int newid)
-    {
-        _name = labWork.Name;
-        _id = newid;
-        _balls = labWork.Balls;
-        _description = labWork.Description;
-        _criteria = labWork.Criteria;
-        _author = labWork.Author;
-        _parentId = labWork.Id;
-
-        return this;
-    }
-
     public LabWork Build()
     {
         return new LabWork(
@@ -69,7 +55,6 @@ public class LabWorkBuilder
             _balls,
             _description ?? throw new ArgumentNullException(nameof(_description)),
             _criteria ?? throw new ArgumentNullException(nameof(_criteria)),
-            _author ?? throw new ArgumentNullException(nameof(_author)),
-            _parentId);
+            _author ?? throw new ArgumentNullException(nameof(_author)));
     }
 }

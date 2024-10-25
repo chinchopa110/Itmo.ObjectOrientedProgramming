@@ -2,12 +2,13 @@ using Itmo.ObjectOrientedProgramming.Lab2.Labs;
 using Itmo.ObjectOrientedProgramming.Lab2.Lectures;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
+using Itmo.ObjectOrientedProgramming.Lab2.Prototype;
 using Itmo.ObjectOrientedProgramming.Lab2.Subjects.FinalControl;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Subjects;
 
-public class Subject
+public class Subject : IPrototype<Subject>
 {
     public string Name { get; private set; }
 
@@ -75,5 +76,12 @@ public class Subject
         }
 
         return new UpdateResult.Failure(new ExaminationSubject("this subject is not creditable"));
+    }
+
+    public Subject Inherit(int newId)
+    {
+        var subject = new Subject(Name, newId, Labs, Lectures, Author, Verification, Id);
+
+        return subject;
     }
 }

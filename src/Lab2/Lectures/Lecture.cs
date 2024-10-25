@@ -1,10 +1,11 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
+using Itmo.ObjectOrientedProgramming.Lab2.Prototype;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Lectures;
 
-public class Lecture
+public class Lecture : IPrototype<Lecture>
 {
     public string Name { get; private set; }
 
@@ -59,5 +60,12 @@ public class Lecture
         }
 
         return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+    }
+
+    public Lecture Inherit(int newId)
+    {
+        var lecture = new Lecture(Name, newId, Description, Content, Author, Id);
+
+        return lecture;
     }
 }

@@ -89,7 +89,7 @@ public class LabWorkTests
         LabWork labWork = labWorkBuilder.Build();
 
         // Act
-        LabWork labWork2 = labWorkBuilder.SetLabWork(labWork, 3333).Build();
+        LabWork labWork2 = labWork.Inherit(2222);
 
         // Assert
         Assert.Equal(labWork.Id, labWork2.ParentId);
