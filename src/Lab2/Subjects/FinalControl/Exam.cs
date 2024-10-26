@@ -1,4 +1,3 @@
-using Itmo.ObjectOrientedProgramming.Lab2.Labs;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
 
@@ -13,14 +12,11 @@ public class Exam : IVerification
         Points = points;
     }
 
-    public SubjectBuildResult Validation(Subject subject)
+    public VerificationValidateResult Validate(int points)
     {
-        int totalLabsPoints = 0;
-        foreach (LabWork lab in subject.Labs) totalLabsPoints += lab.Points;
+        points += Points;
+        if (points != 100) return new VerificationValidateResult.Failure(new InvalidTotalPointError());
 
-        totalLabsPoints += Points;
-        if (totalLabsPoints != 100) return new SubjectBuildResult.Failure(new TotalPoints());
-
-        return new SubjectBuildResult.Success(subject);
+        return new VerificationValidateResult.Success();
     }
 }

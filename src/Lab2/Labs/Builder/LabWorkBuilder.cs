@@ -6,7 +6,7 @@ public class LabWorkBuilder
 {
     private string? _name;
     private int _id;
-    private int _balls;
+    private int _points;
     private string? _description;
     private string? _criteria;
     private SingleUser? _author;
@@ -25,7 +25,7 @@ public class LabWorkBuilder
 
     public LabWorkBuilder SetBalls(int balls)
     {
-        _balls = balls;
+        _points = balls;
         return this;
     }
 
@@ -52,7 +52,7 @@ public class LabWorkBuilder
         return new LabWork(
             _id,
             _name ?? throw new ArgumentNullException(nameof(_name)),
-            _balls,
+            _points,
             _description ?? throw new ArgumentNullException(nameof(_description)),
             _criteria ?? throw new ArgumentNullException(nameof(_criteria)),
             _author ?? throw new ArgumentNullException(nameof(_author)));

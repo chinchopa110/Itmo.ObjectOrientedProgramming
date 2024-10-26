@@ -2,11 +2,11 @@ using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors.Interfaces;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
 
-public class NotAuthor : IError
+public class NotAuthorError : IError
 {
     public string Message { get; }
 
-    public NotAuthor()
+    public NotAuthorError()
     {
         Message = "You must be the author";
     }

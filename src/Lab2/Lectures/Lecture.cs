@@ -32,7 +32,7 @@ public class Lecture : IPrototype<Lecture>, IEducationalObject
 
     public UpdateResult UpdateName(SingleUser user, string newName)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
 
         Name = newName;
         return new UpdateResult.Success();
@@ -40,14 +40,14 @@ public class Lecture : IPrototype<Lecture>, IEducationalObject
 
     public UpdateResult UpdateDescription(SingleUser user, string newDescription)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
         Description = newDescription;
         return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateContent(SingleUser user, string content)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
         Content = content;
         return new UpdateResult.Success();
     }

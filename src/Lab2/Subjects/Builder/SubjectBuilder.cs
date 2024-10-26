@@ -1,6 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Labs;
 using Itmo.ObjectOrientedProgramming.Lab2.Lectures;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
+using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab2.Subjects.FinalControl;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 
@@ -53,14 +54,23 @@ public class SubjectBuilder
 
     public SubjectBuildResult Build()
     {
-        var subject = new Subject(
-            _id,
-            _name ?? throw new ArgumentNullException(nameof(_name)),
-            _labs,
-            _lectures,
-            _author ?? throw new ArgumentNullException(nameof(_author)),
-            _verification ?? throw new ArgumentNullException(nameof(_verification)));
+        int totalLabPoints = _labs.Sum(lab => lab.Points);
+        if (_verification == null) throw new ArgumentNullException(nameof(_verification));
 
-        return subject.Verification.Validation(subject);
+        VerificationValidateResult res = _verification.Validate(totalLabPoints);
+        if (res is VerificationValidateResult.Success)
+        {
+            var subject = new Subject(
+                _id,
+                _name ?? throw new ArgumentNullException(nameof(_name)),
+                _labs,
+                _lectures,
+                _author ?? throw new ArgumentNullException(nameof(_author)),
+                _verification);
+
+            return new SubjectBuildResult.Success(subject);
+        }
+
+        return new SubjectBuildResult.Failure(new InvalidTotalPointError());
     }
 }

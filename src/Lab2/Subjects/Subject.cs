@@ -45,21 +45,21 @@ public class Subject : IPrototype<Subject>, IEducationalObject
 
     public UpdateResult UpdateName(SingleUser user, string newName)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
         Name = newName;
         return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateLectures(SingleUser user, IEnumerable<Lecture> lectures)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
         Lectures = lectures;
         return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateMinTestPoints(SingleUser user, int points)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
 
         TestValidationResult validationResult = Test.Create(points);
 
@@ -74,6 +74,6 @@ public class Subject : IPrototype<Subject>, IEducationalObject
 
     public Subject Inherit(int newId)
     {
-        return new Subject(newId, Name, Labs, Lectures, Author, Verification, Id);
+        return new Subject(id: newId, Name, Labs, Lectures, Author, Verification, parentId: Id);
     }
 }

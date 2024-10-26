@@ -42,27 +42,27 @@ public class LabWork : IPrototype<LabWork>, IEducationalObject
 
     public UpdateResult UpdateName(SingleUser user, string newName)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
         Name = newName;
         return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateDescription(SingleUser user, string newDescription)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
         Description = newDescription;
         return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateCriteria(SingleUser user, string criteria)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthorError());
         Criteria = criteria;
         return new UpdateResult.Success();
     }
 
     public LabWork Inherit(int newId)
     {
-        return new LabWork(newId, Name, Points, Description, Criteria, Author, Id);
+        return new LabWork(labId: newId, Name, Points, Description, Criteria, Author, parentId: Id);
     }
 }
