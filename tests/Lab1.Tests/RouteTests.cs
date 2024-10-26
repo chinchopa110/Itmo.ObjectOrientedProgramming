@@ -123,7 +123,7 @@ public class RouteTests
             conventionalMp,
             acceleratingMp1,
             conventionalMp,
-            acceleratingMp2
+            acceleratingMp2,
         };
 
         var route = new Route(30, sections);
