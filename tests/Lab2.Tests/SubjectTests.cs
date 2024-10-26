@@ -22,7 +22,7 @@ public class SubjectTests
 
         // Act
         var repo = new UniversalRepository<IEducationalObject>();
-        var user2 = new SingleUser(repo.GenerateId(), "Bob");
+        var user2 = new SingleUser(repo.GenerateId() + 1, "Bob");
         if (subject != null)
         {
             UpdateResult result = subject.UpdateName(user2, "qwertqchnhufnhun");
