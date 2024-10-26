@@ -16,7 +16,7 @@ public class Test : IVerification
     public static TestValidationResult Create(int minBall)
     {
         if (minBall > 100)
-            return new TestValidationResult.Failure(new MinBallLimit());
+            return new TestValidationResult.Failure(new InvalidMinPointError());
 
         return new TestValidationResult.Success(new Test(minBall));
     }

@@ -64,7 +64,7 @@ public class Subject : IPrototype<Subject>, IEducationalObject
         TestValidationResult validationResult = Test.Create(points);
 
         if (validationResult is TestValidationResult.Failure)
-            return new UpdateResult.Failure(new MinBallLimit());
+            return new UpdateResult.Failure(new InvalidMinPointError());
 
         Test test = ((TestValidationResult.Success)validationResult).Test;
         Verification = test;
