@@ -6,8 +6,8 @@ public class MinBallLimit : IError
 {
     public string Message { get; }
 
-    public MinBallLimit(string message)
+    public MinBallLimit()
     {
-        Message = message;
+        Message = "The minimum score must be no more than 100";
     }
 }

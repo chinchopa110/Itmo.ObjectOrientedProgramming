@@ -3,12 +3,13 @@ using Itmo.ObjectOrientedProgramming.Lab2.Lectures;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab2.Prototype;
+using Itmo.ObjectOrientedProgramming.Lab2.Repository;
 using Itmo.ObjectOrientedProgramming.Lab2.Subjects.FinalControl;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Subjects;
 
-public class Subject : IPrototype<Subject>
+public class Subject : IPrototype<Subject>, IEducationalObject
 {
     public string Name { get; private set; }
 
@@ -18,15 +19,15 @@ public class Subject : IPrototype<Subject>
 
     public IEnumerable<Lecture> Lectures { get; private set; }
 
-    public IVerification Verification { get; }
+    public IVerification Verification { get; private set; }
 
     public int ParentId { get; }
 
     public SingleUser Author { get; }
 
     public Subject(
-        string name,
         int id,
+        string name,
         IEnumerable<LabWork> labs,
         IEnumerable<Lecture> lectures,
         SingleUser author,
@@ -44,44 +45,35 @@ public class Subject : IPrototype<Subject>
 
     public UpdateResult UpdateName(SingleUser user, string newName)
     {
-        if (user.Id == Author.Id)
-        {
-            Name = newName;
-            return new UpdateResult.Success();
-        }
-
-        return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        Name = newName;
+        return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateLectures(SingleUser user, IEnumerable<Lecture> lectures)
     {
-        if (user.Id == Author.Id)
-        {
-            Lectures = lectures;
-            return new UpdateResult.Success();
-        }
-
-        return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        Lectures = lectures;
+        return new UpdateResult.Success();
     }
 
-    public UpdateResult UpdateMinTestBall(SingleUser user, int ball)
+    public UpdateResult UpdateMinTestPoints(SingleUser user, int points)
     {
-        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
 
-        if (Verification is Test test)
-        {
-            if (test.UpdateMinBall(ball) is not TestValidationResult.Success)
-                return new UpdateResult.Failure(new MinBallLimit("the minimum score must be no more than 100"));
-            return new UpdateResult.Success();
-        }
+        TestValidationResult validationResult = Test.Create(points);
 
-        return new UpdateResult.Failure(new ExaminationSubject("this subject is not creditable"));
+        if (validationResult is TestValidationResult.Failure)
+            return new UpdateResult.Failure(new MinBallLimit());
+
+        Test test = ((TestValidationResult.Success)validationResult).Test;
+        Verification = test;
+
+        return new UpdateResult.Success();
     }
 
     public Subject Inherit(int newId)
     {
-        var subject = new Subject(Name, newId, Labs, Lectures, Author, Verification, Id);
-
-        return subject;
+        return new Subject(newId, Name, Labs, Lectures, Author, Verification, Id);
     }
 }

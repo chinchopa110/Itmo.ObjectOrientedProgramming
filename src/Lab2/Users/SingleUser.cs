@@ -1,14 +1,16 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Repository;
+
 namespace Itmo.ObjectOrientedProgramming.Lab2.Users;
 
-public class SingleUser
+public class SingleUser : IEducationalObject
 {
     public string Name { get; private set; }
 
     public int Id { get; }
 
-    public SingleUser(string name, int userId)
+    public SingleUser(int userId, string name)
     {
-        Name = name;
         Id = userId;
+        Name = name;
     }
 }

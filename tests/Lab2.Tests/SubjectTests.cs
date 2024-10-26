@@ -3,6 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab2.Labs.Builder;
 using Itmo.ObjectOrientedProgramming.Lab2.Lectures;
 using Itmo.ObjectOrientedProgramming.Lab2.Lectures.Builder;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
+using Itmo.ObjectOrientedProgramming.Lab2.Repository;
 using Itmo.ObjectOrientedProgramming.Lab2.Subjects;
 using Itmo.ObjectOrientedProgramming.Lab2.Subjects.Builder;
 using Itmo.ObjectOrientedProgramming.Lab2.Subjects.FinalControl;
@@ -20,7 +21,8 @@ public class SubjectTests
         Subject? subject = Create();
 
         // Act
-        var user2 = new SingleUser("Tom", 2222);
+        var repo = new UniversalRepository<IEducationalObject>();
+        var user2 = new SingleUser(repo.GenerateId(), "Bob");
         if (subject != null)
         {
             UpdateResult result = subject.UpdateName(user2, "qwertqchnhufnhun");
@@ -34,12 +36,13 @@ public class SubjectTests
     public void SetSubject_ShouldReturnSubject_WithParentId()
     {
         // Arrange
+        var repo = new UniversalRepository<IEducationalObject>();
         Subject? subject = Create();
 
         // Act
         if (subject != null)
         {
-            Subject subject2 = subject.Inherit(1337);
+            Subject subject2 = subject.Inherit(repo.GenerateId());
 
             // Assert
             Assert.Equal(subject2.ParentId, subject.Id);
@@ -50,20 +53,21 @@ public class SubjectTests
     public void Build_ShouldReturnError_WhenTotalPointsIsNotCorrect()
     {
         // Arrange
-        var user = new SingleUser("Bob", 1111);
+        var repo = new UniversalRepository<IEducationalObject>();
+        var user = new SingleUser(repo.GenerateId(), "Bob");
         var labWorkBuilder = new LabWorkBuilder();
         labWorkBuilder.SetName("L1")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .SetBalls(45)
             .SetDescription("This is a test")
             .SetCriteria("This is a criteria")
             .SetAuthor(user);
         LabWork labWork1 = labWorkBuilder.Build();
-        LabWork labWork2 = labWork1.Inherit(228);
+        LabWork labWork2 = labWork1.Inherit(repo.GenerateId());
 
         var lectureBuilder = new LectureBuilder();
         lectureBuilder.SetName("L1")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .SetDescription("Math")
             .SetContent("dcfvgtbyh,kol")
             .SetAuthor(user);
@@ -71,7 +75,7 @@ public class SubjectTests
 
         var subjectBuilder = new SubjectBuilder();
         subjectBuilder.SetName("Math")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .AddLab(labWork1)
             .AddLab(labWork2)
             .AddLecture(lecture)
@@ -87,10 +91,11 @@ public class SubjectTests
 
     private Subject? Create()
     {
-        var user = new SingleUser("Bob", 1111);
+        var repo = new UniversalRepository<IEducationalObject>();
+        var user = new SingleUser(repo.GenerateId(), "Bob");
         var labWorkBuilder = new LabWorkBuilder();
         labWorkBuilder.SetName("L1")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .SetBalls(40)
             .SetDescription("This is a test")
             .SetCriteria("This is a criteria")

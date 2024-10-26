@@ -6,8 +6,8 @@ public class NotAuthor : IError
 {
     public string Message { get; }
 
-    public NotAuthor(string message)
+    public NotAuthor()
     {
-        Message = message;
+        Message = "You must be the author";
     }
 }

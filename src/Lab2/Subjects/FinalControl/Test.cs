@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab2.Labs;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
 
@@ -15,17 +16,18 @@ public class Test : IVerification
     public static TestValidationResult Create(int minBall)
     {
         if (minBall > 100)
-            return new TestValidationResult.Failure(new MinBallLimit("The minimum score must be no more than 100"));
+            return new TestValidationResult.Failure(new MinBallLimit());
 
         return new TestValidationResult.Success(new Test(minBall));
     }
 
-    public TestValidationResult UpdateMinBall(int newball)
+    public SubjectBuildResult Validation(Subject subject)
     {
-        if (newball > 100)
-            return new TestValidationResult.Failure(new MinBallLimit("the minimum score must be no more than 100"));
+        int totalLabsPoints = 0;
+        foreach (LabWork lab in subject.Labs) totalLabsPoints += lab.Points;
 
-        MinBall = newball;
-        return new TestValidationResult.Success(this);
+        if (totalLabsPoints != 100) return new SubjectBuildResult.Failure(new TotalPoints());
+
+        return new SubjectBuildResult.Success(subject);
     }
 }

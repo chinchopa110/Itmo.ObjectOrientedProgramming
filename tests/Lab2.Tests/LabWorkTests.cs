@@ -1,6 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Labs;
 using Itmo.ObjectOrientedProgramming.Lab2.Labs.Builder;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
+using Itmo.ObjectOrientedProgramming.Lab2.Repository;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 using Xunit;
 
@@ -12,10 +13,11 @@ public class LabWorkTests
     public void UpdateName_ShouldReturnResultOfUpdate_WhenNotAuthor()
     {
         // Arrange
-        var user = new SingleUser("Bob", 1111);
+        var repo = new UniversalRepository<IEducationalObject>();
+        var user = new SingleUser(repo.GenerateId(), "Bob");
         var labWorkBuilder = new LabWorkBuilder();
         labWorkBuilder.SetName("L1")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .SetBalls(10)
             .SetDescription("This is a test")
             .SetCriteria("This is a criteria")
@@ -23,7 +25,7 @@ public class LabWorkTests
         LabWork labWork = labWorkBuilder.Build();
 
         // Act
-        var user2 = new SingleUser("Tom", 2222);
+        var user2 = new SingleUser(repo.GenerateId(), "Tom");
         UpdateResult result = labWork.UpdateName(user2, "qwert");
 
         // Assert
@@ -34,10 +36,11 @@ public class LabWorkTests
     public void UpdateDescription_ShouldReturnResultOfUpdate_WhenNotAuthor()
     {
         // Arrange
-        var user = new SingleUser("Bob", 1111);
+        var repo = new UniversalRepository<IEducationalObject>();
+        var user = new SingleUser(repo.GenerateId(), "Bob");
         var labWorkBuilder = new LabWorkBuilder();
         labWorkBuilder.SetName("L1")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .SetBalls(10)
             .SetDescription("This is a test")
             .SetCriteria("This is a criteria")
@@ -45,7 +48,7 @@ public class LabWorkTests
         LabWork labWork = labWorkBuilder.Build();
 
         // Act
-        var user2 = new SingleUser("Tom", 2222);
+        var user2 = new SingleUser(repo.GenerateId(), "Tom");
         UpdateResult result = labWork.UpdateDescription(user2, "qwertqchnhufnhun");
 
         // Assert
@@ -56,10 +59,11 @@ public class LabWorkTests
     public void UpdateCriteria_ShouldReturnResultOfUpdate_WhenNotAuthor()
     {
         // Arrange
-        var user = new SingleUser("Bob", 1111);
+        var repo = new UniversalRepository<IEducationalObject>();
+        var user = new SingleUser(repo.GenerateId(), "Bob");
         var labWorkBuilder = new LabWorkBuilder();
         labWorkBuilder.SetName("L1")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .SetBalls(10)
             .SetDescription("This is a test")
             .SetCriteria("This is a criteria")
@@ -67,7 +71,7 @@ public class LabWorkTests
         LabWork labWork = labWorkBuilder.Build();
 
         // Act
-        var user2 = new SingleUser("Tom", 2222);
+        var user2 = new SingleUser(repo.GenerateId(), "Tom");
         UpdateResult result = labWork.UpdateCriteria(user2, "qwertqchnhufnhun");
 
         // Assert
@@ -78,10 +82,11 @@ public class LabWorkTests
     public void SetLabWork_ShouldReturnNewLab_WithParentId()
     {
         // Arrange
-        var user = new SingleUser("Bob", 1111);
+        var repo = new UniversalRepository<IEducationalObject>();
+        var user = new SingleUser(repo.GenerateId(), "Bob");
         var labWorkBuilder = new LabWorkBuilder();
         labWorkBuilder.SetName("L1")
-            .SetId(123)
+            .SetId(repo.GenerateId())
             .SetBalls(10)
             .SetDescription("This is a test")
             .SetCriteria("This is a criteria")
@@ -89,7 +94,7 @@ public class LabWorkTests
         LabWork labWork = labWorkBuilder.Build();
 
         // Act
-        LabWork labWork2 = labWork.Inherit(2222);
+        LabWork labWork2 = labWork.Inherit(repo.GenerateId());
 
         // Assert
         Assert.Equal(labWork.Id, labWork2.ParentId);

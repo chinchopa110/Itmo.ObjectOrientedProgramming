@@ -6,8 +6,8 @@ public class TotalPoints : IError
 {
     public string Message { get; }
 
-    public TotalPoints(string message)
+    public TotalPoints()
     {
-        Message = message;
+        Message = "The total points must be one hundred";
     }
 }

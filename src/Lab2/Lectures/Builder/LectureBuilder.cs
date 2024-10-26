@@ -43,8 +43,8 @@ public class LectureBuilder
     public Lecture Build()
     {
         return new Lecture(
-            _name ?? throw new ArgumentNullException(nameof(_name)),
             _id,
+            _name ?? throw new ArgumentNullException(nameof(_name)),
             _description ?? throw new ArgumentNullException(nameof(_description)),
             _content ?? throw new ArgumentNullException(nameof(_content)),
             _author ?? throw new ArgumentNullException(nameof(_author)));

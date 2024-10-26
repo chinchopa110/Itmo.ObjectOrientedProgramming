@@ -1,7 +1,6 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Labs;
 using Itmo.ObjectOrientedProgramming.Lab2.Lectures;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
-using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab2.Subjects.FinalControl;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 
@@ -54,20 +53,14 @@ public class SubjectBuilder
 
     public SubjectBuildResult Build()
     {
-        int totalPoints = _labs.Sum(lab => lab.Balls);
-
-        if (_verification is Exam exam) totalPoints += exam.Ball;
-        if (totalPoints != 100)
-            return new SubjectBuildResult.Failure(new TotalPoints("The total points must be one hundred"));
-
         var subject = new Subject(
-            _name ?? throw new ArgumentNullException(nameof(_name)),
             _id,
+            _name ?? throw new ArgumentNullException(nameof(_name)),
             _labs,
             _lectures,
             _author ?? throw new ArgumentNullException(nameof(_author)),
             _verification ?? throw new ArgumentNullException(nameof(_verification)));
 
-        return new SubjectBuildResult.Success(subject);
+        return subject.Verification.Validation(subject);
     }
 }

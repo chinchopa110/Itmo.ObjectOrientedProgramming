@@ -1,17 +1,18 @@
 using Itmo.ObjectOrientedProgramming.Lab2.Processing;
 using Itmo.ObjectOrientedProgramming.Lab2.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab2.Prototype;
+using Itmo.ObjectOrientedProgramming.Lab2.Repository;
 using Itmo.ObjectOrientedProgramming.Lab2.Users;
 
 namespace Itmo.ObjectOrientedProgramming.Lab2.Labs;
 
-public class LabWork : IPrototype<LabWork>
+public class LabWork : IPrototype<LabWork>, IEducationalObject
 {
     public string Name { get; private set; }
 
     public int Id { get; }
 
-    public int Balls { get; }
+    public int Points { get; }
 
     public string Description { get; private set; }
 
@@ -22,8 +23,8 @@ public class LabWork : IPrototype<LabWork>
     public SingleUser Author { get; }
 
     public LabWork(
-        string name,
         int labId,
+        string name,
         int balls,
         string description,
         string criteria,
@@ -32,7 +33,7 @@ public class LabWork : IPrototype<LabWork>
     {
         Name = name;
         Id = labId;
-        Balls = balls;
+        Points = balls;
         Author = author;
         Description = description;
         Criteria = criteria;
@@ -41,41 +42,27 @@ public class LabWork : IPrototype<LabWork>
 
     public UpdateResult UpdateName(SingleUser user, string newName)
     {
-        if (user.Id == Author.Id)
-        {
-            Name = newName;
-            return new UpdateResult.Success();
-        }
-
-        return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        Name = newName;
+        return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateDescription(SingleUser user, string newDescription)
     {
-        if (user.Id == Author.Id)
-        {
-            Description = newDescription;
-            return new UpdateResult.Success();
-        }
-
-        return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        Description = newDescription;
+        return new UpdateResult.Success();
     }
 
     public UpdateResult UpdateCriteria(SingleUser user, string criteria)
     {
-        if (user.Id == Author.Id)
-        {
-            Criteria = criteria;
-            return new UpdateResult.Success();
-        }
-
-        return new UpdateResult.Failure(new NotAuthor("you must be the author"));
+        if (user.Id != Author.Id) return new UpdateResult.Failure(new NotAuthor());
+        Criteria = criteria;
+        return new UpdateResult.Success();
     }
 
     public LabWork Inherit(int newId)
     {
-        var lab = new LabWork(Name, newId, Balls, Description, Criteria, Author, Id);
-
-        return lab;
+        return new LabWork(newId, Name, Points, Description, Criteria, Author, Id);
     }
 }

@@ -50,8 +50,8 @@ public class LabWorkBuilder
     public LabWork Build()
     {
         return new LabWork(
-            _name ?? throw new ArgumentNullException(nameof(_name)),
             _id,
+            _name ?? throw new ArgumentNullException(nameof(_name)),
             _balls,
             _description ?? throw new ArgumentNullException(nameof(_description)),
             _criteria ?? throw new ArgumentNullException(nameof(_criteria)),
