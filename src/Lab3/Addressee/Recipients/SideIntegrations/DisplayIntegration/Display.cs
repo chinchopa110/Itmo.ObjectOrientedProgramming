@@ -6,9 +6,9 @@ public class Display : IDisplay
 {
     private readonly DisplayDriver _driver;
 
-    public Display()
+    public Display(string filePath)
     {
-        _driver = new DisplayDriver();
+        _driver = new DisplayDriver("filePath");
     }
 
     public void DisplayMessage(Message message)

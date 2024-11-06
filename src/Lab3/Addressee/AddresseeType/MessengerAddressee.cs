@@ -15,6 +15,6 @@ public class MessengerAddressee : IAddressee
 
     public void SendMessage(Message message)
     {
-        _messenger.SendInMessanger(message);
+        _messenger.SendInMessenger(message);
     }
 }
