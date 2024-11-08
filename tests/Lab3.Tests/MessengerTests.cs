@@ -1,7 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Addressee.AddresseeType;
 using Itmo.ObjectOrientedProgramming.Lab3.Addressee.Recipients.SideIntegrations.MessengerIntegration;
 using Itmo.ObjectOrientedProgramming.Lab3.Messages;
-using Moq;
+using NSubstitute;
 using Xunit;
 
 namespace Lab3.Tests;
@@ -12,14 +12,14 @@ public class MessengerTests
     public void SendInMessenger_ShouldSendMessage_WhenAddresseeIsMessenger()
     {
         // Arrange
-        var mockMessenger = new Mock<IMessenger>();
-        var messengerAddressee = new MessengerAddressee(mockMessenger.Object);
+        IMessenger mockMessenger = Substitute.For<IMessenger>();
+        var messengerAddressee = new MessengerAddressee(mockMessenger);
         var message = new Message("Test Header", "Test Text", 2);
 
         // Act
-        messengerAddressee.SendMessage(message);
+        messengerAddressee.DeliverMessage(message);
 
         // Assert
-        mockMessenger.Verify(m => m.SendInMessenger(message), Times.Once);
+        mockMessenger.Received(1).SendInMessenger(message);
     }
 }

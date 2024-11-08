@@ -12,8 +12,9 @@ public class GroupAddressee : IAddressee
         _addresses = addresses;
     }
 
-    public void SendMessage(Message message)
+    public void DeliverMessage(Message message)
     {
-        foreach (IAddressee addressee in _addresses) addressee.SendMessage(message);
+        foreach (IAddressee addressee in _addresses)
+            addressee.DeliverMessage(message);
     }
 }

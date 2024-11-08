@@ -15,8 +15,9 @@ public class Topic
         _addresses = addresses;
     }
 
-    public void DeliverMessage(Message message)
+    public void SendMessage(Message message)
     {
-        foreach (IAddressee addressee in _addresses) addressee.SendMessage(message);
+        foreach (IAddressee addressee in _addresses)
+            addressee.DeliverMessage(message);
     }
 }

@@ -13,7 +13,7 @@ public class DisplayAddressee : IAddressee
         _display = display;
     }
 
-    public void SendMessage(Message message)
+    public void DeliverMessage(Message message)
     {
         _display.DisplayMessage(message);
     }

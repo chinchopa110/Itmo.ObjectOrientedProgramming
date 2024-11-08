@@ -3,7 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab3.Addressee.AddresseeType.Interfaces;
 using Itmo.ObjectOrientedProgramming.Lab3.Addressee.AddresseeType.Proxy;
 using Itmo.ObjectOrientedProgramming.Lab3.Addressee.Recipients.UserRecipients;
 using Itmo.ObjectOrientedProgramming.Lab3.Messages;
-using Moq;
+using NSubstitute;
 using Xunit;
 
 namespace Lab3.Tests;
@@ -14,15 +14,15 @@ public class LevelFilterProxyTest
     public void SendMessage_ShouldNotSend_WhenImportanceLevelIsTooLow()
     {
         // Arrange
-        var userMock = new Mock<IAddressee>();
-        var levelFilterProxy = new LevelFilterProxy(userMock.Object, 5);
+        IAddressee userMock = Substitute.For<IAddressee>();
+        var levelFilterProxy = new LevelFilterProxy(userMock, CheckLevel);
         var lowImportanceMessage = new Message("header", "text", 3);
 
         // Act
-        levelFilterProxy.SendMessage(lowImportanceMessage);
+        levelFilterProxy.DeliverMessage(lowImportanceMessage);
 
         // Assert
-        userMock.Verify(u => u.SendMessage(It.IsAny<Message>()), Times.Never);
+        userMock.DidNotReceive().DeliverMessage(Arg.Any<Message>());
     }
 
     [Fact]
@@ -31,15 +31,20 @@ public class LevelFilterProxyTest
         // Arrange
         var user = new User();
         var userAddressee = new UserAddressee(user);
-        var levelFilterProxy = new LevelFilterProxy(new UserAddressee(user), 5);
+        var levelFilterProxy = new LevelFilterProxy(userAddressee, CheckLevel);
         var message = new Message("header", "text", 3);
 
         // Act
-        userAddressee.SendMessage(message);
-        levelFilterProxy.SendMessage(message);
+        userAddressee.DeliverMessage(message);
+        levelFilterProxy.DeliverMessage(message);
 
         // Assert
-        IReadOnlyCollection<UserMessage> mes = user.GetMessages();
+        IReadOnlyCollection<Message> mes = user.GetMessages();
         Assert.Single(mes);
+    }
+
+    private bool CheckLevel(int level)
+    {
+        return level >= 5;
     }
 }

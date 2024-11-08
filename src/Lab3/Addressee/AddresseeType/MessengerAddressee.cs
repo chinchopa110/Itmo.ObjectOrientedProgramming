@@ -13,7 +13,7 @@ public class MessengerAddressee : IAddressee
         _messenger = messenger;
     }
 
-    public void SendMessage(Message message)
+    public void DeliverMessage(Message message)
     {
         _messenger.SendInMessenger(message);
     }

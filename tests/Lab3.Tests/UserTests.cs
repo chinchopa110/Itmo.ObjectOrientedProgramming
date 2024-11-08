@@ -17,12 +17,13 @@ public class UserTests
         var userAddressee = new UserAddressee(user);
 
         // Act
-        userAddressee.SendMessage(message);
+        userAddressee.DeliverMessage(message);
 
         // Assert
-        IReadOnlyCollection<UserMessage> res = user.GetMessages();
-        UserMessage userMessage = res.First();
-        Assert.False(userMessage.IsRead);
+        IReadOnlyCollection<Message> res = user.GetMessages();
+        Message userMessage = res.First();
+
+        Assert.False(user.IsMessageRead(userMessage));
     }
 
     [Fact]
@@ -34,15 +35,15 @@ public class UserTests
         var userAddressee = new UserAddressee(user);
 
         // Act
-        userAddressee.SendMessage(message);
-        IReadOnlyCollection<UserMessage> mess = user.GetMessages();
-        UserMessage userMessage = mess.First();
+        userAddressee.DeliverMessage(message);
+        IReadOnlyCollection<Message> mess = user.GetMessages();
+        Message userMessage = mess.First();
         user.Read(userMessage);
 
         // Assert
         mess = user.GetMessages();
         userMessage = mess.First();
-        Assert.True(userMessage.IsRead);
+        Assert.True(user.IsMessageRead(userMessage));
     }
 
     [Fact]
@@ -54,14 +55,12 @@ public class UserTests
         var userAddressee = new UserAddressee(user);
 
         // Act
-        userAddressee.SendMessage(message);
-        IReadOnlyCollection<UserMessage> mess = user.GetMessages();
-        UserMessage userMessage = mess.First();
+        userAddressee.DeliverMessage(message);
+        IReadOnlyCollection<Message> mess = user.GetMessages();
+        Message userMessage = mess.First();
         user.Read(userMessage);
 
-        mess = user.GetMessages();
-        userMessage = mess.First();
-        ReadUserMessageResult res = userMessage.Read();
+        ReadUserMessageResult res = user.Read(userMessage);
 
         // Assert
         Assert.IsType<ReadUserMessageResult.Failure>(res);

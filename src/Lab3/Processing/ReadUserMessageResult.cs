@@ -4,9 +4,7 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Processing;
 
 public record ReadUserMessageResult
 {
-    public ReadUserMessageResult() { }
-
-    public sealed record Success() : ReadUserMessageResult;
+    public sealed record Success : ReadUserMessageResult;
 
     public sealed record Failure(IError Err) : ReadUserMessageResult;
 }

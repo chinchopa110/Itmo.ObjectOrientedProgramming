@@ -4,10 +4,10 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Processing.Errors;
 
 public class MessageAlreadyRead : IError
 {
-    public string Message { get; }
+    public string ErrorDescription { get; }
 
     public MessageAlreadyRead()
     {
-        Message = "This message has already been read!";
+        ErrorDescription = "This message has already been read!";
     }
 }

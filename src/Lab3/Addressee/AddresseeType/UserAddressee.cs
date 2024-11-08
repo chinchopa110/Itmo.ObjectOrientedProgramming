@@ -13,7 +13,7 @@ public class UserAddressee : IAddressee
         _user = user;
     }
 
-    public void SendMessage(Message message)
+    public void DeliverMessage(Message message)
     {
         _user.ReceiveMessage(message);
     }

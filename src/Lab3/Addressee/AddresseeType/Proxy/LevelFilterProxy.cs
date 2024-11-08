@@ -6,16 +6,21 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Addressee.AddresseeType.Proxy;
 public class LevelFilterProxy : IAddressee
 {
     private readonly IAddressee _addressee;
-    private readonly int _level;
+    private readonly LevelCheckDelegate _levelCheck;
 
-    public LevelFilterProxy(IAddressee addressee, int level)
+    public delegate bool LevelCheckDelegate(int level);
+
+    public LevelFilterProxy(IAddressee addressee, LevelCheckDelegate levelCheck)
     {
         _addressee = addressee;
-        _level = level;
+        _levelCheck = levelCheck ?? throw new ArgumentNullException(nameof(levelCheck));
     }
 
-    public void SendMessage(Message message)
+    public void DeliverMessage(Message message)
     {
-        if (message.ImportanceLevel >= _level) _addressee.SendMessage(message);
+        if (_levelCheck(message.ImportanceLevel))
+        {
+            _addressee.DeliverMessage(message);
+        }
     }
 }

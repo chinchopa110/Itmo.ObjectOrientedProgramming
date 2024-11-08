@@ -1,9 +1,10 @@
 using Itmo.ObjectOrientedProgramming.Lab3.Messages;
 using System.Drawing;
+using System.Text;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Addressee.Recipients.SideIntegrations.DisplayIntegration;
 
-public class DisplayDriver
+public class DisplayDriver : IDisplayDriver
 {
     private readonly string _filePath;
 
@@ -22,13 +23,16 @@ public class DisplayDriver
 
     public void Write(Message message)
     {
-        string output = $"Messenger:\nHeader: {message.Header}\nText: {message.Text}\n";
+        string output = $"Header: {message.Header}\n" +
+                        $"Text: {message.Text}\n";
 
         Console.Clear();
         Console.WriteLine(Crayon.Output.Rgb(MessageColor.R, MessageColor.G, MessageColor.B).Text(output));
 
-        string colorCode = $"{MessageColor.R},{MessageColor.G},{MessageColor.B}";
-        string coloredMessage = $"{colorCode}|{output}";
+        var coloredMessageBuilder = new StringBuilder();
+        coloredMessageBuilder.Append($"{MessageColor.R},{MessageColor.G},{MessageColor.B}|");
+        coloredMessageBuilder.Append(output);
+        string coloredMessage = coloredMessageBuilder.ToString();
 
         using var writer = new StreamWriter(_filePath, false);
         writer.WriteLine(coloredMessage);
