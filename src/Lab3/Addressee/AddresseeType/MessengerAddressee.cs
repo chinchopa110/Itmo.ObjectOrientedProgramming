@@ -15,6 +15,14 @@ public class MessengerAddressee : IAddressee
 
     public void DeliverMessage(Message message)
     {
-        _messenger.SendInMessenger(message);
+        _messenger.SendInMessenger(ConvertMessageToString(message));
+    }
+
+    private string ConvertMessageToString(Message message)
+    {
+        string output = $"Messenger:\n" +
+                        $"Header: {message.Header}\n" +
+                        $"Text: {message.Text}\n";
+        return output;
     }
 }

@@ -1,14 +1,18 @@
-using Itmo.ObjectOrientedProgramming.Lab3.Messages;
+using Itmo.ObjectOrientedProgramming.Lab3.Addressee.Recipients.SideIntegrations.MessengerIntegration.ConsoleProvaider;
 
 namespace Itmo.ObjectOrientedProgramming.Lab3.Addressee.Recipients.SideIntegrations.MessengerIntegration;
 
 public class Messenger : IMessenger
 {
-    public void SendInMessenger(Message message)
+    private readonly IConsoleWriter _consoleWriter;
+
+    public Messenger(IConsoleWriter consoleWriter)
     {
-        string output = $"Messenger:\n" +
-                        $"Header: {message.Header}\n" +
-                        $"Text: {message.Text}\n";
-        Console.WriteLine(output);
+        _consoleWriter = consoleWriter;
+    }
+
+    public void SendInMessenger(string message)
+    {
+        _consoleWriter.Write(message);
     }
 }

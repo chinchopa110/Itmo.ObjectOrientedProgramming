@@ -20,6 +20,11 @@ public class User
 
     public ReadUserMessageResult Read(Message message)
     {
+        if (!_messages.ContainsKey(message))
+        {
+            return new ReadUserMessageResult.Failure(new MessageNotFound());
+        }
+
         if (_messages[message])
             return new ReadUserMessageResult.Failure(new MessageAlreadyRead());
 

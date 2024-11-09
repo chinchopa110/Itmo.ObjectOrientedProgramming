@@ -6,11 +6,9 @@ namespace Itmo.ObjectOrientedProgramming.Lab3.Addressee.AddresseeType.Proxy;
 public class LevelFilterProxy : IAddressee
 {
     private readonly IAddressee _addressee;
-    private readonly LevelCheckDelegate _levelCheck;
+    private readonly Func<int, bool> _levelCheck;
 
-    public delegate bool LevelCheckDelegate(int level);
-
-    public LevelFilterProxy(IAddressee addressee, LevelCheckDelegate levelCheck)
+    public LevelFilterProxy(IAddressee addressee, Func<int, bool> levelCheck)
     {
         _addressee = addressee;
         _levelCheck = levelCheck ?? throw new ArgumentNullException(nameof(levelCheck));

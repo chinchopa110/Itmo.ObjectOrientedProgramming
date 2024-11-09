@@ -15,7 +15,7 @@ public class LevelFilterProxyTest
     {
         // Arrange
         IAddressee userMock = Substitute.For<IAddressee>();
-        var levelFilterProxy = new LevelFilterProxy(userMock, CheckLevel);
+        var levelFilterProxy = new LevelFilterProxy(userMock, x => x >= 5);
         var lowImportanceMessage = new Message("header", "text", 3);
 
         // Act
@@ -31,7 +31,7 @@ public class LevelFilterProxyTest
         // Arrange
         var user = new User();
         var userAddressee = new UserAddressee(user);
-        var levelFilterProxy = new LevelFilterProxy(userAddressee, CheckLevel);
+        var levelFilterProxy = new LevelFilterProxy(userAddressee, x => x >= 5);
         var message = new Message("header", "text", 3);
 
         // Act
@@ -41,10 +41,5 @@ public class LevelFilterProxyTest
         // Assert
         IReadOnlyCollection<Message> mes = user.GetMessages();
         Assert.Single(mes);
-    }
-
-    private bool CheckLevel(int level)
-    {
-        return level >= 5;
     }
 }
