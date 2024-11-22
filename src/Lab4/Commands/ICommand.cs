@@ -1,8 +1,9 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Application;
+using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
+using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands;
 
 public interface ICommand
 {
-    IFileSystemService Execute(IFileSystemService service);
+    CommandExecuteResult Execute(IFileSystemContext context);
 }

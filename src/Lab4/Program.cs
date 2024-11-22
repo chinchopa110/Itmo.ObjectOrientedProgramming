@@ -1,6 +1,7 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Application;
+using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
 using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.Factory;
 using Itmo.ObjectOrientedProgramming.Lab4.ReaderService;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4;
@@ -14,13 +15,10 @@ public class Program
 
     public static void Main(string[] args)
     {
-        var fileSystemService = new FileSystemService(new ConsoleWriter());
+        var fileSystemService = new DisconnectContext();
+        IParameterHandler handler = ParameterHandlerFactory.CreateParameterHandlerChain();
 
-        IParameterHandler handler = new TreeConnectParameterHandler()
-            .AddNext(new TreeMovementParameterHandler())
-            .AddNext(new FileInteractionParameterHandler());
-
-        var reader = new ConsoleReader(fileSystemService, handler);
+        var reader = new ConsoleReader(fileSystemService, handler, new ConsoleWriter());
 
         while (true)
         {

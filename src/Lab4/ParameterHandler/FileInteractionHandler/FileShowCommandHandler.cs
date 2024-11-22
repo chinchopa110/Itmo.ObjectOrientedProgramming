@@ -1,22 +1,22 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
-using Itmo.ObjectOrientedProgramming.Lab4.Commands.TreeConnectCommands;
+using Itmo.ObjectOrientedProgramming.Lab4.Commands.FileInteractionCommands;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler;
+namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.FileInteractionHandler;
 
-public class TreeConnectParameterHandler : ParameterHandlerBase
+public class FileShowCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current is not "connect" and not "disconnect")
+        if (request.Current != "file")
             return Next?.Handle(request);
 
-        if (request.Current == "disconnect")
-            return new DisconnectCommand();
+        if (!request.MoveNext() || request.Current != "show")
+            return Next?.Handle(request);
 
         if (!request.MoveNext())
             return null;
 
-        string address = request.Current;
+        string path = request.Current;
 
         if (!request.MoveNext())
             return null;
@@ -26,9 +26,10 @@ public class TreeConnectParameterHandler : ParameterHandlerBase
         {
             if (!request.MoveNext())
                 return null;
+
             command = request.Current switch
             {
-                "local" => new LocalConnectCommand(address),
+                "console" => new ConsoleShowFileCommand(path),
                 _ => null,
             };
         }

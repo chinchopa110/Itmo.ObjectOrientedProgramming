@@ -1,7 +1,7 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Application;
+using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands.TreeConnectCommands;
-using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.ConnectionHandler;
 using NSubstitute;
 using Xunit;
 
@@ -13,7 +13,7 @@ public class TreeConnectParameterHandlerTests
     public void Handle_ShouldReturnDisconnectCommand_WhenInputIsDisconnect()
     {
         // Arrange
-        var parameterHandler = new TreeConnectParameterHandler();
+        var parameterHandler = new DisconnectCommandHandler();
         using IEnumerator<string> request = new List<string> { "disconnect" }.GetEnumerator();
 
         // Act
@@ -31,10 +31,10 @@ public class TreeConnectParameterHandlerTests
     public void Handle_ShouldReturnConnectCommand_WhenInputIsConnect()
     {
         // Arrange
-        var parameterHandler = new TreeConnectParameterHandler();
+        var parameterHandler = new LocalConnectCommandHandler();
         using IEnumerator<string> request = new List<string> { "connect", "парампарампам", "-m", "local" }.GetEnumerator();
 
-        IFileSystemService fileSystemService = Substitute.For<IFileSystemService>();
+        IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();
 
         // Act
         ICommand? command = null;

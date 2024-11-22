@@ -1,4 +1,6 @@
-using Itmo.ObjectOrientedProgramming.Lab4.Application;
+using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
+using Itmo.ObjectOrientedProgramming.Lab4.Processing.Errors;
+using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Commands.TreeMovementCommands;
 
@@ -11,9 +13,22 @@ public class GoToCommand : ICommand
         _path = path;
     }
 
-    public IFileSystemService Execute(IFileSystemService service)
+    public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        service.GoToDirectory(_path);
-        return service;
+        string fullPath = GetAbsolutePath(_path, context.FileSystem.CurrentDirectory);
+
+        if (!Directory.Exists(fullPath))
+        {
+            return new CommandExecuteResult.Failure(new NotFoundPath());
+        }
+
+        context.FileSystem.GoToDirectory(_path);
+        return new CommandExecuteResult.Success();
+    }
+
+    private string GetAbsolutePath(string path, string currentDirectory)
+    {
+        string absolutePath = Path.IsPathRooted(path) ? path : Path.Combine(currentDirectory, path);
+        return Path.GetFullPath(absolutePath);
     }
 }

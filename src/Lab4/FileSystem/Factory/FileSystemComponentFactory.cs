@@ -8,7 +8,7 @@ public class FileSystemComponentFactory
     {
         if (depth < 0)
         {
-            return new DirectoryComponent(string.Empty, Array.Empty<IFileSystemComponent>());
+            return new DirectoryComponent(string.Empty, () => Array.Empty<IFileSystemComponent>());
         }
 
         if (Directory.Exists(path))
@@ -21,13 +21,14 @@ public class FileSystemComponentFactory
                 .Where(x => x is not null)
                 .Cast<string>();
 
-            IFileSystemComponent[] components = names
-                .Select(entry => Path.Combine(path, entry))
-                .Select(entryPath => Create(entryPath, depth - 1))
-                .Where(component => component.Name is not "")
-                .ToArray();
-
-            return new DirectoryComponent(name ?? string.Empty, components);
+            return new DirectoryComponent(name ?? string.Empty, () =>
+            {
+                return names
+                    .Select(entry => Path.Combine(path, entry))
+                    .Select(entryPath => Create(entryPath, depth - 1))
+                    .Where(component => component.Name is not "")
+                    .ToArray();
+            });
         }
 
         if (File.Exists(path))
