@@ -7,10 +7,7 @@ public class FileShowCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current != "file")
-            return Next?.Handle(request);
-
-        if (!request.MoveNext() || request.Current != "show")
+        if (request.Current != "show")
             return Next?.Handle(request);
 
         if (!request.MoveNext())
@@ -21,7 +18,7 @@ public class FileShowCommandHandler : ParameterHandlerBase
         if (!request.MoveNext())
             return null;
 
-        ICommand? command;
+        ICommand? command = null;
         if (request.Current == "-m")
         {
             if (!request.MoveNext())
@@ -32,10 +29,6 @@ public class FileShowCommandHandler : ParameterHandlerBase
                 "console" => new ConsoleShowFileCommand(path),
                 _ => null,
             };
-        }
-        else
-        {
-            command = null;
         }
 
         return command ?? Next?.Handle(request);

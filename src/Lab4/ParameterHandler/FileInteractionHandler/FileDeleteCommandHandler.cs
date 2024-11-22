@@ -7,10 +7,7 @@ public class FileDeleteCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current != "file")
-            return Next?.Handle(request);
-
-        if (!request.MoveNext() || request.Current != "delete")
+        if (request.Current != "delete")
             return Next?.Handle(request);
 
         if (!request.MoveNext())

@@ -7,10 +7,7 @@ public class FileRenameCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current != "file")
-            return Next?.Handle(request);
-
-        if (!request.MoveNext() || request.Current != "rename")
+        if (request.Current != "rename")
             return Next?.Handle(request);
 
         if (!request.MoveNext())

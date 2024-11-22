@@ -7,14 +7,11 @@ public class GoToCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current != "tree")
+        if (request.Current != "goto")
             return Next?.Handle(request);
 
-        if (!request.MoveNext() || request.Current != "goto")
-                return Next?.Handle(request);
-
         if (!request.MoveNext())
-                return null;
+            return null;
 
         return new GoToCommand(request.Current);
     }

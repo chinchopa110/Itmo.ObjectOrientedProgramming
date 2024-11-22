@@ -7,10 +7,7 @@ public class FileCopyCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current != "file")
-            return Next?.Handle(request);
-
-        if (!request.MoveNext() || request.Current != "copy")
+        if (request.Current != "copy")
             return Next?.Handle(request);
 
         if (!request.MoveNext())

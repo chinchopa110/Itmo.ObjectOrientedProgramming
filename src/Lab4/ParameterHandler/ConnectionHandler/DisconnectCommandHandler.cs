@@ -7,9 +7,11 @@ public class DisconnectCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current is not "disconnect")
-            return Next?.Handle(request);
+        if (request.Current == "disconnect")
+        {
+            return new DisconnectCommand();
+        }
 
-        return new DisconnectCommand();
+        return Next?.Handle(request);
     }
 }

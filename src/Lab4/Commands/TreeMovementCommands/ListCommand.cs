@@ -14,7 +14,11 @@ public class ListCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        context.FileSystem.List(_depth);
+        if (context.FileSystem.List(_depth) is FileSystemInteractionResult.Failure failure)
+        {
+            return new CommandExecuteResult.Failure(failure.Err);
+        }
+
         return new CommandExecuteResult.Success();
     }
 }

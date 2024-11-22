@@ -10,12 +10,7 @@ public class ParameterHandlerFactory
     {
         return new LocalConnectCommandHandler()
             .AddNext(new DisconnectCommandHandler())
-            .AddNext(new GoToCommandHandler())
-            .AddNext(new ListCommandHandler())
-            .AddNext(new FileShowCommandHandler())
-            .AddNext(new FileCopyCommandHandler())
-            .AddNext(new FileMoveCommandHandler())
-            .AddNext(new FileDeleteCommandHandler())
-            .AddNext(new FileRenameCommandHandler());
+            .AddNext(new TreeCommandHandler())
+            .AddNext(new FileCommandHandler());
     }
 }

@@ -7,10 +7,7 @@ public class FileMoveCommandHandler : ParameterHandlerBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {
-        if (request.Current != "file")
-            return Next?.Handle(request);
-
-        if (!request.MoveNext() || request.Current != "move")
+        if (request.Current != "move")
             return Next?.Handle(request);
 
         if (!request.MoveNext())
