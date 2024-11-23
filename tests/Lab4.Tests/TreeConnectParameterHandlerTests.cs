@@ -2,6 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands.TreeConnectCommands;
 using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.ConnectionHandler;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.ConnectionHandler.FlagParser;
 using NSubstitute;
 using Xunit;
 
@@ -31,7 +32,7 @@ public class TreeConnectParameterHandlerTests
     public void Handle_ShouldReturnConnectCommand_WhenInputIsConnect()
     {
         // Arrange
-        var parameterHandler = new LocalConnectCommandParser();
+        var parameterHandler = new LocalConnectCommandParser(new ConnectModeFlagParser<LocalConnectCommandBuilder>());
         using IEnumerator<string> request = new List<string> { "connect", "парампарампам", "-m", "local" }.GetEnumerator();
 
         IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();

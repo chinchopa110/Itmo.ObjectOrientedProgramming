@@ -1,3 +1,4 @@
+using Itmo.ObjectOrientedProgramming.Lab4.Application.State;
 using Itmo.ObjectOrientedProgramming.Lab4.FileSystem.Composite;
 using Itmo.ObjectOrientedProgramming.Lab4.FileSystem.Factory;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
@@ -8,6 +9,8 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Application.FileSystemStateHandler
 
 public class LocalFileSystem : IFileSystem
 {
+    public FileSystemState State => FileSystemState.Connect;
+
     private readonly FileSystemComponentFactory _componentFactory;
 
     private string _currentDirectory;
@@ -58,24 +61,32 @@ public class LocalFileSystem : IFileSystem
         string? directory = Path.GetDirectoryName(GetAbsolutePath(path));
 
         if (directory == null)
-        {
             return new FileSystemInteractionResult.Failure(new NotFoundPath());
-        }
 
         string newFilePath = Path.Combine(directory, newName);
+
+        if (CheckCollisions(newFilePath) is FileSystemInteractionResult.Failure failure)
+            return failure;
 
         File.Move(path, newFilePath);
         return new FileSystemInteractionResult.Success();
     }
 
-    public FileSystemInteractionResult IsValidePath(string path)
+    public FileSystemInteractionResult IsValidPath(string path)
     {
         string fullPath = GetAbsolutePath(path);
 
         if (!File.Exists(fullPath))
-        {
             return new FileSystemInteractionResult.Failure(new NotFoundPath());
-        }
+
+        return new FileSystemInteractionResult.Success();
+    }
+
+    public FileSystemInteractionResult CheckCollisions(string filePath)
+    {
+        string absolutePath = GetAbsolutePath(filePath);
+        if (File.Exists(absolutePath))
+            return new FileSystemInteractionResult.Failure(new NameAlreadyExists());
 
         return new FileSystemInteractionResult.Success();
     }

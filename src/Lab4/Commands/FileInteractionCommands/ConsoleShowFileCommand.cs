@@ -18,10 +18,8 @@ public class ConsoleShowFileCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidePath(_path) is FileSystemInteractionResult.Failure)
-        {
+        if (context.FileSystem.IsValidPath(_path) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
-        }
 
         context.FileSystem.ShowFile(_path, _consoleWriter);
         return new CommandExecuteResult.Success();

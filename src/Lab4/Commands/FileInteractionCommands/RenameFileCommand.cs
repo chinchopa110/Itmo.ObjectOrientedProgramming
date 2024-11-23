@@ -17,10 +17,8 @@ public class RenameFileCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidePath(_path) is FileSystemInteractionResult.Failure)
-        {
+        if (context.FileSystem.IsValidPath(_path) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
-        }
 
         context.FileSystem.FileRename(_path, _newName);
         return new CommandExecuteResult.Success();

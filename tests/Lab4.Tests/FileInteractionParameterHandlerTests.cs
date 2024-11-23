@@ -3,6 +3,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands.FileInteractionCommands;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
 using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.FileInteractionHandler;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.FileInteractionHandler.FlagParser;
 using NSubstitute;
 using Xunit;
 
@@ -14,7 +15,7 @@ public class FileInteractionParameterHandlerTests
     public void Handle_ShouldReturnFileShow_WhenInputIsFileShow()
     {
         // Arrange
-        var parameterHandler = new FileShowCommandParser();
+        var parameterHandler = new FileShowCommandParser(new ShowModeFlagParser<ConsoleFileShowCommandBuilder>());
         using IEnumerator<string> request = new List<string> { "file", "show", "лолкекчебурек", "-m", "console" }.GetEnumerator();
 
         IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();

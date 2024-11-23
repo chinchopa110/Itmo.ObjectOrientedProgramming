@@ -17,15 +17,14 @@ public class CopyFilePathCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidePath(_copyPath) is FileSystemInteractionResult.Failure)
-        {
+        if (context.FileSystem.IsValidPath(_copyPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
-        }
 
-        if (context.FileSystem.IsValidePath(_targetPath) is FileSystemInteractionResult.Failure)
-        {
+        if (context.FileSystem.IsValidPath(_targetPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
-        }
+
+        if (context.FileSystem.CheckCollisions(_targetPath) is FileSystemInteractionResult.Failure)
+            return new CommandExecuteResult.Failure(new NameAlreadyExists());
 
         context.FileSystem.FileCopy(_copyPath, _targetPath);
         return new CommandExecuteResult.Success();

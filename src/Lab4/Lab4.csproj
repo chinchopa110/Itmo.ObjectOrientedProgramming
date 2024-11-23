@@ -5,10 +5,4 @@
         <OutputType>Exe</OutputType>
     </PropertyGroup>
 
-    <ItemGroup>
-      <Folder Include="ParameterParser\ConnectionHandler\FlagParser\" />
-      <Folder Include="ParameterParser\FileInteractionHandler\FlagsHandler\" />
-      <Folder Include="ParameterParser\TreeMovementHandler\FlagParser\" />
-    </ItemGroup>
-
 </Project>

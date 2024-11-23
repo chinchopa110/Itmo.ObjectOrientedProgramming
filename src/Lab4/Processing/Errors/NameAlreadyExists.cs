@@ -2,12 +2,12 @@ using Itmo.ObjectOrientedProgramming.Lab4.Processing.Errors.Interfaces;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Processing.Errors;
 
-public class NameTaken : IError
+public class NameAlreadyExists : IError
 {
     public string ErrorDescription { get; }
 
-    public NameTaken()
+    public NameAlreadyExists()
     {
-        ErrorDescription = "This name is already taken";
+        ErrorDescription = "This name is already exists";
     }
 }

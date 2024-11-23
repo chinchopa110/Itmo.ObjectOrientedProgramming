@@ -15,9 +15,11 @@ public class DisconnectFileSystem : IFileSystem
         return new FileSystemInteractionResult.Failure(new NotConnectError());
     }
 
-    public IFileSystemComponent? List(int depth)
+    public IFileSystemComponent List(int depth)
     {
-        return null;
+        Func<IReadOnlyCollection<IFileSystemComponent>> emptyFactory = () => Array.Empty<IFileSystemComponent>();
+
+        return new DirectoryComponent(" ", emptyFactory);
     }
 
     public FileSystemInteractionResult ShowFile(string path, IWriter outputWriter)
@@ -45,7 +47,12 @@ public class DisconnectFileSystem : IFileSystem
         return new FileSystemInteractionResult.Failure(new NotConnectError());
     }
 
-    public FileSystemInteractionResult IsValidePath(string path)
+    public FileSystemInteractionResult IsValidPath(string path)
+    {
+        return new FileSystemInteractionResult.Failure(new NotConnectError());
+    }
+
+    public FileSystemInteractionResult CheckCollisions(string filePath)
     {
         return new FileSystemInteractionResult.Failure(new NotConnectError());
     }
