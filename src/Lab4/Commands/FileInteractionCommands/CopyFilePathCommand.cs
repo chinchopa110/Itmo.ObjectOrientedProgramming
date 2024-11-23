@@ -42,11 +42,6 @@ public class CopyFilePathCommand : ICommand
 
     private bool CheckCollisions(string filePath)
     {
-        if (File.Exists(filePath))
-        {
-            return false;
-        }
-
-        return true;
+        return File.Exists(filePath);
     }
 }

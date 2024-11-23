@@ -1,6 +1,5 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Application.FileSystemStateHandlers;
 using Itmo.ObjectOrientedProgramming.Lab4.Application.State;
-using Itmo.ObjectOrientedProgramming.Lab4.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
@@ -24,6 +23,7 @@ public class FileSystemContext : IFileSystemContext
 
     public StateMoveResult Disconnect()
     {
-        return new StateMoveResult.InvalidMode(new NotConnectError());
+        FileSystem = new DisconnectFileSystemStateHandler();
+        return new StateMoveResult.Success(FileSystem);
     }
 }
