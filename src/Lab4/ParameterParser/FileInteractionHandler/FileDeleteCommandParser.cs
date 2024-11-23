@@ -1,9 +1,9 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands.FileInteractionCommands;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.FileInteractionHandler;
+namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.FileInteractionHandler;
 
-public class FileDeleteCommandHandler : ParameterHandlerBase
+public class FileDeleteCommandParser : ParameterParserBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {

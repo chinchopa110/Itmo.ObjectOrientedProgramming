@@ -1,21 +1,21 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
-using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser;
 using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.ReaderService;
 
 public class ConsoleReader : IReader
 {
-    private readonly IParameterHandler _parameterHandler;
+    private readonly IParameterParser _parameterParser;
     private readonly IFileSystemContext _fileSystemContext;
     private readonly IWriter _errorWriter;
 
-    public ConsoleReader(IFileSystemContext fileSystemContext, IParameterHandler parameterHandler, IWriter errorWriter)
+    public ConsoleReader(IFileSystemContext fileSystemContext, IParameterParser parameterParser, IWriter errorWriter)
     {
         _fileSystemContext = fileSystemContext;
-        _parameterHandler = parameterHandler;
+        _parameterParser = parameterParser;
         _errorWriter = errorWriter;
     }
 
@@ -26,7 +26,7 @@ public class ConsoleReader : IReader
 
         while (request.MoveNext())
         {
-            command = _parameterHandler.Handle(request);
+            command = _parameterParser.Handle(request);
 
             if (command == null)
             {

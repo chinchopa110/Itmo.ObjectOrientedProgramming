@@ -1,9 +1,9 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands.FileInteractionCommands;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.FileInteractionHandler;
+namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.FileInteractionHandler;
 
-public class FileMoveCommandHandler : ParameterHandlerBase
+public class FileMoveCommandParser : ParameterParserBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {

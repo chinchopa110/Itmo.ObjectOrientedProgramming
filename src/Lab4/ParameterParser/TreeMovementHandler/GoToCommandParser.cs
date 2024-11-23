@@ -1,9 +1,9 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands.TreeMovementCommands;
 
-namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.TreeMovementHandler;
+namespace Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.TreeMovementHandler;
 
-public class GoToCommandHandler : ParameterHandlerBase
+public class GoToCommandParser : ParameterParserBase
 {
     public override ICommand? Handle(IEnumerator<string> request)
     {

@@ -2,7 +2,7 @@ using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands;
 using Itmo.ObjectOrientedProgramming.Lab4.Commands.FileInteractionCommands;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
-using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.FileInteractionHandler;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.FileInteractionHandler;
 using NSubstitute;
 using Xunit;
 
@@ -14,7 +14,7 @@ public class FileInteractionParameterHandlerTests
     public void Handle_ShouldReturnFileShow_WhenInputIsFileShow()
     {
         // Arrange
-        var parameterHandler = new FileShowCommandHandler();
+        var parameterHandler = new FileShowCommandParser();
         using IEnumerator<string> request = new List<string> { "file", "show", "лолкекчебурек", "-m", "console" }.GetEnumerator();
 
         IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();
@@ -36,7 +36,7 @@ public class FileInteractionParameterHandlerTests
     public void Handle_ShouldReturnFileMove_WhenInputIsFileMove()
     {
         // Arrange
-        var parameterHandler = new FileMoveCommandHandler();
+        var parameterHandler = new FileMoveCommandParser();
         using IEnumerator<string> request = new List<string> { "file", "move", "лолкекчебурек", "кеклолкарвалол" }.GetEnumerator();
 
         IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();
@@ -58,7 +58,7 @@ public class FileInteractionParameterHandlerTests
     public void Handle_ShouldReturnFileCopy_WhenInputIsFileCopy()
     {
         // Arrange
-        var parameterHandler = new FileCopyCommandHandler();
+        var parameterHandler = new FileCopyCommandParser();
         using IEnumerator<string> request = new List<string> { "file", "copy", "лолкекчебурек", "кеклолкарвалол" }.GetEnumerator();
 
         IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();
@@ -80,7 +80,7 @@ public class FileInteractionParameterHandlerTests
     public void Handle_ShouldReturnFileDelete_WhenInputIsFileDelete()
     {
         // Arrange
-        var parameterHandler = new FileDeleteCommandHandler();
+        var parameterHandler = new FileDeleteCommandParser();
         using IEnumerator<string> request = new List<string> { "file", "delete", "уууууууууууу" }.GetEnumerator();
 
         IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();
@@ -102,7 +102,7 @@ public class FileInteractionParameterHandlerTests
     public void Handle_ShouldReturnRename_WhenInputIsRename()
     {
         // Arrange
-        var parameterHandler = new FileRenameCommandHandler();
+        var parameterHandler = new FileRenameCommandParser();
         using IEnumerator<string> request = new List<string> { "file", "rename", "антон", "тарас" }.GetEnumerator();
 
         IFileSystemContext fileSystemService = Substitute.For<IFileSystemContext>();

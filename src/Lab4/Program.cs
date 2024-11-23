@@ -1,7 +1,7 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
-using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler;
-using Itmo.ObjectOrientedProgramming.Lab4.ParameterHandler.Factory;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser;
+using Itmo.ObjectOrientedProgramming.Lab4.ParameterParser.Factory;
 using Itmo.ObjectOrientedProgramming.Lab4.ReaderService;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4;
@@ -16,9 +16,9 @@ public class Program
     public static void Main(string[] args)
     {
         var fileSystemService = new FileSystemContext();
-        IParameterHandler handler = ParameterHandlerFactory.CreateParameterHandlerChain();
+        IParameterParser parser = ParameterParserFactory.CreateParameterHandlerChain();
 
-        var reader = new ConsoleReader(fileSystemService, handler, new ConsoleWriter());
+        var reader = new ConsoleReader(fileSystemService, parser, new ConsoleWriter());
 
         while (true)
         {
