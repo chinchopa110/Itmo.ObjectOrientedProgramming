@@ -1,26 +1,23 @@
 using Itmo.ObjectOrientedProgramming.Lab4.Application.FileSystemStateHandlers;
-using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 
 public class FileSystemContext : IFileSystemContext
 {
-    public IFileSystemStateHandler FileSystem { get; private set; }
+    public IFileSystem FileSystem { get; private set; }
 
     public FileSystemContext()
     {
-        FileSystem = new DisconnectFileSystemStateHandler();
+        FileSystem = new DisconnectFileSystem();
     }
 
-    public StateMoveResult Connect(string path)
+    public void Connect(string path)
     {
-        FileSystem = new ConnectFileSystemStateHandler(path);
-        return new StateMoveResult.Success(FileSystem);
+        FileSystem = new LocalFileSystem(path);
     }
 
-    public StateMoveResult Disconnect()
+    public void Disconnect()
     {
-        FileSystem = new DisconnectFileSystemStateHandler();
-        return new StateMoveResult.Success(FileSystem);
+        FileSystem = new DisconnectFileSystem();
     }
 }

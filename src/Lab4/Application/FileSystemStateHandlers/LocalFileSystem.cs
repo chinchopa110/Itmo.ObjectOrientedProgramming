@@ -1,19 +1,18 @@
 using Itmo.ObjectOrientedProgramming.Lab4.FileSystem.Composite;
 using Itmo.ObjectOrientedProgramming.Lab4.FileSystem.Factory;
-using Itmo.ObjectOrientedProgramming.Lab4.FileSystem.Visitors;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
 using Itmo.ObjectOrientedProgramming.Lab4.Processing.Errors;
 using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Application.FileSystemStateHandlers;
 
-public class ConnectFileSystemStateHandler : IFileSystemStateHandler
+public class LocalFileSystem : IFileSystem
 {
     private readonly FileSystemComponentFactory _componentFactory;
 
     private string _currentDirectory;
 
-    public ConnectFileSystemStateHandler(string currentDirectory)
+    public LocalFileSystem(string currentDirectory)
     {
         _currentDirectory = currentDirectory;
         _componentFactory = new FileSystemComponentFactory();
@@ -25,15 +24,9 @@ public class ConnectFileSystemStateHandler : IFileSystemStateHandler
         return new FileSystemInteractionResult.Success();
     }
 
-    public FileSystemInteractionResult List(int depth)
+    public IFileSystemComponent List(int depth)
     {
-        IFileSystemComponent component = _componentFactory.Create(_currentDirectory, depth);
-
-        var consoleWriter = new ConsoleWriter();
-        var visitor = new Visitor(consoleWriter);
-        component.Accept(visitor);
-
-        return new FileSystemInteractionResult.Success();
+        return _componentFactory.Create(_currentDirectory, depth);
     }
 
     public FileSystemInteractionResult ShowFile(string path, IWriter outputWriter)

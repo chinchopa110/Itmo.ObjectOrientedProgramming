@@ -14,10 +14,7 @@ public class LocalConnectCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.Connect(_connectionPath) is StateMoveResult.InvalidMode failure)
-        {
-            return new CommandExecuteResult.Failure(failure.Err);
-        }
+        context.Connect(_connectionPath);
 
         return new CommandExecuteResult.Success();
     }

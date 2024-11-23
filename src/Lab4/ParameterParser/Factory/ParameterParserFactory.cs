@@ -11,6 +11,13 @@ public class ParameterParserFactory
         return new LocalConnectCommandParser()
             .AddNext(new DisconnectCommandParser())
             .AddNext(new TreeCommandParser())
-            .AddNext(new FileCommandParser());
+                .AddNext(new GoToCommandParser()
+                .AddNext(new ListCommandParser()))
+            .AddNext(new FileCommandParser())
+                .AddNext(new FileShowCommandParser())
+                .AddNext(new FileDeleteCommandParser())
+                .AddNext(new FileMoveCommandParser())
+                .AddNext(new FileRenameCommandParser())
+                .AddNext(new FileShowCommandParser());
     }
 }

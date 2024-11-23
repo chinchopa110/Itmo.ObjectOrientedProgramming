@@ -7,10 +7,7 @@ public class DisconnectCommand : ICommand
 {
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.Disconnect() is StateMoveResult.InvalidMode failure)
-        {
-            return new CommandExecuteResult.Failure(failure.Err);
-        }
+        context.Disconnect();
 
         return new CommandExecuteResult.Success();
     }

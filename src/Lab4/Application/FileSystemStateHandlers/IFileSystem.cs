@@ -1,13 +1,14 @@
+using Itmo.ObjectOrientedProgramming.Lab4.FileSystem.Composite;
 using Itmo.ObjectOrientedProgramming.Lab4.OutputWriter;
 using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Application.FileSystemStateHandlers;
 
-public interface IFileSystemStateHandler
+public interface IFileSystem
 {
     FileSystemInteractionResult GoToDirectory(string path);
 
-    FileSystemInteractionResult List(int depth);
+    IFileSystemComponent? List(int depth);
 
     FileSystemInteractionResult ShowFile(string path, IWriter outputWriter);
 

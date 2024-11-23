@@ -24,21 +24,18 @@ public class ConsoleReader : IReader
         using IEnumerator<string> request = args.GetEnumerator();
         ICommand? command;
 
-        while (request.MoveNext())
+        command = _parameterParser.Handle(request);
+
+        if (command == null)
         {
-            command = _parameterParser.Handle(request);
+            _errorWriter.WriteLine("Invalid command!");
+            return;
+        }
 
-            if (command == null)
-            {
-                _errorWriter.WriteLine("Invalid command!");
-                return;
-            }
-
-            CommandExecuteResult result = command.Execute(_fileSystemContext);
-            if (result is CommandExecuteResult.Failure failure)
-            {
-                _errorWriter.WriteLine(failure.Err.ErrorDescription);
-            }
+        CommandExecuteResult result = command.Execute(_fileSystemContext);
+        if (result is CommandExecuteResult.Failure failure)
+        {
+            _errorWriter.WriteLine(failure.Err.ErrorDescription);
         }
     }
 }
