@@ -18,20 +18,12 @@ public class ConsoleShowFileCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        string fullPath = GetAbsolutePath(_path, context.FileSystem.CurrentDirectory);
-
-        if (!File.Exists(fullPath))
+        if (context.FileSystem.IsValidePath(_path) is FileSystemInteractionResult.Failure)
         {
             return new CommandExecuteResult.Failure(new NotFoundPath());
         }
 
-        context.FileSystem.ShowFile(fullPath, _consoleWriter);
+        context.FileSystem.ShowFile(_path, _consoleWriter);
         return new CommandExecuteResult.Success();
-    }
-
-    private string GetAbsolutePath(string path, string currentDirectory)
-    {
-        string absolutePath = Path.IsPathRooted(path) ? path : Path.Combine(currentDirectory, path);
-        return Path.GetFullPath(absolutePath);
     }
 }

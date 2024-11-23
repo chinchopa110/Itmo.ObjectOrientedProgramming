@@ -17,31 +17,17 @@ public class CopyFilePathCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        string fullCopyPath = GetAbsolutePath(_copyPath, context.FileSystem.CurrentDirectory);
-        string fullTargetPath = GetAbsolutePath(_targetPath, context.FileSystem.CurrentDirectory);
-
-        if (!File.Exists(fullCopyPath) || !File.Exists(fullTargetPath))
+        if (context.FileSystem.IsValidePath(_copyPath) is FileSystemInteractionResult.Failure)
         {
             return new CommandExecuteResult.Failure(new NotFoundPath());
         }
 
-        if (CheckCollisions(fullTargetPath))
+        if (context.FileSystem.IsValidePath(_targetPath) is FileSystemInteractionResult.Failure)
         {
-            return new CommandExecuteResult.Failure(new NameTaken());
+            return new CommandExecuteResult.Failure(new NotFoundPath());
         }
 
-        context.FileSystem.FileCopy(fullCopyPath, fullTargetPath);
+        context.FileSystem.FileCopy(_copyPath, _targetPath);
         return new CommandExecuteResult.Success();
-    }
-
-    private string GetAbsolutePath(string path, string currentDirectory)
-    {
-        string absolutePath = Path.IsPathRooted(path) ? path : Path.Combine(currentDirectory, path);
-        return Path.GetFullPath(absolutePath);
-    }
-
-    private bool CheckCollisions(string filePath)
-    {
-        return File.Exists(filePath);
     }
 }

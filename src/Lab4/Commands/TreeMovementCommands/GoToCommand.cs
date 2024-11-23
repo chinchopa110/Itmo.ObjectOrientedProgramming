@@ -15,20 +15,12 @@ public class GoToCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        string fullPath = GetAbsolutePath(_path, context.FileSystem.CurrentDirectory);
-
-        if (!Directory.Exists(fullPath))
+        if (context.FileSystem.IsValidePath(_path) is FileSystemInteractionResult.Failure)
         {
             return new CommandExecuteResult.Failure(new NotFoundPath());
         }
 
         context.FileSystem.GoToDirectory(_path);
         return new CommandExecuteResult.Success();
-    }
-
-    private string GetAbsolutePath(string path, string currentDirectory)
-    {
-        string absolutePath = Path.IsPathRooted(path) ? path : Path.Combine(currentDirectory, path);
-        return Path.GetFullPath(absolutePath);
     }
 }

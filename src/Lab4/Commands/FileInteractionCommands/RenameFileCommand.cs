@@ -17,30 +17,12 @@ public class RenameFileCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        string fullPath = GetAbsolutePath(_path, context.FileSystem.CurrentDirectory);
-
-        if (!File.Exists(fullPath))
+        if (context.FileSystem.IsValidePath(_path) is FileSystemInteractionResult.Failure)
         {
             return new CommandExecuteResult.Failure(new NotFoundPath());
         }
 
-        if (CheckCollisions(fullPath))
-        {
-            return new CommandExecuteResult.Failure(new NameTaken());
-        }
-
         context.FileSystem.FileRename(_path, _newName);
         return new CommandExecuteResult.Success();
-    }
-
-    private string GetAbsolutePath(string path, string currentDirectory)
-    {
-        string absolutePath = Path.IsPathRooted(path) ? path : Path.Combine(currentDirectory, path);
-        return Path.GetFullPath(absolutePath);
-    }
-
-    private bool CheckCollisions(string filePath)
-    {
-        return File.Exists(filePath);
     }
 }

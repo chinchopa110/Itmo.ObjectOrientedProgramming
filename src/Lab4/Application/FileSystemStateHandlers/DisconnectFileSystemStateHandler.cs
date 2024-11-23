@@ -7,13 +7,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Application.FileSystemStateHandler
 
 public class DisconnectFileSystemStateHandler : IFileSystemStateHandler
 {
-    public string CurrentDirectory { get; }
-
-    public DisconnectFileSystemStateHandler()
-    {
-        CurrentDirectory = string.Empty;
-    }
-
     public FileSystemState State => FileSystemState.Disconnect;
 
     public StateMoveResult Connect(string path)
@@ -57,6 +50,11 @@ public class DisconnectFileSystemStateHandler : IFileSystemStateHandler
     }
 
     public FileSystemInteractionResult FileRename(string path, string newName)
+    {
+        return new FileSystemInteractionResult.Failure(new NotConnectError());
+    }
+
+    public FileSystemInteractionResult IsValidePath(string path)
     {
         return new FileSystemInteractionResult.Failure(new NotConnectError());
     }

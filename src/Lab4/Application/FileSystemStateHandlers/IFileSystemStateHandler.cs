@@ -5,8 +5,6 @@ namespace Itmo.ObjectOrientedProgramming.Lab4.Application.FileSystemStateHandler
 
 public interface IFileSystemStateHandler
 {
-    public string CurrentDirectory { get; }
-
     FileSystemInteractionResult GoToDirectory(string path);
 
     FileSystemInteractionResult List(int depth);
@@ -20,4 +18,6 @@ public interface IFileSystemStateHandler
     FileSystemInteractionResult FileDelete(string path);
 
     FileSystemInteractionResult FileRename(string path, string newName);
+
+    public FileSystemInteractionResult IsValidePath(string path);
 }

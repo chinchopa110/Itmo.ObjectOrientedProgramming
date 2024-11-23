@@ -11,23 +11,23 @@ public class ConnectFileSystemStateHandler : IFileSystemStateHandler
 {
     private readonly FileSystemComponentFactory _componentFactory;
 
-    public string CurrentDirectory { get; private set; }
+    private string _currentDirectory;
 
     public ConnectFileSystemStateHandler(string currentDirectory)
     {
-        CurrentDirectory = currentDirectory;
+        _currentDirectory = currentDirectory;
         _componentFactory = new FileSystemComponentFactory();
     }
 
     public FileSystemInteractionResult GoToDirectory(string path)
     {
-        CurrentDirectory = path;
+        _currentDirectory = GetAbsolutePath(path);
         return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult List(int depth)
     {
-        IFileSystemComponent component = _componentFactory.Create(CurrentDirectory, depth);
+        IFileSystemComponent component = _componentFactory.Create(_currentDirectory, depth);
 
         var consoleWriter = new ConsoleWriter();
         var visitor = new Visitor(consoleWriter);
@@ -38,31 +38,31 @@ public class ConnectFileSystemStateHandler : IFileSystemStateHandler
 
     public FileSystemInteractionResult ShowFile(string path, IWriter outputWriter)
     {
-        outputWriter.WriteLine(File.ReadAllText(path));
+        outputWriter.WriteLine(File.ReadAllText(GetAbsolutePath(path)));
         return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult FileMove(string sourcePath, string destinationPath)
     {
-        File.Move(sourcePath, destinationPath);
+        File.Move(GetAbsolutePath(sourcePath), GetAbsolutePath(destinationPath));
         return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult FileCopy(string sourcePath, string destinationPath)
     {
-        File.Copy(sourcePath, destinationPath, true);
+        File.Copy(GetAbsolutePath(sourcePath), GetAbsolutePath(destinationPath), true);
         return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult FileDelete(string path)
     {
-        File.Delete(path);
+        File.Delete(GetAbsolutePath(path));
         return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult FileRename(string path, string newName)
     {
-        string? directory = Path.GetDirectoryName(path);
+        string? directory = Path.GetDirectoryName(GetAbsolutePath(path));
 
         if (directory == null)
         {
@@ -73,5 +73,23 @@ public class ConnectFileSystemStateHandler : IFileSystemStateHandler
 
         File.Move(path, newFilePath);
         return new FileSystemInteractionResult.Success();
+    }
+
+    public FileSystemInteractionResult IsValidePath(string path)
+    {
+        string fullPath = GetAbsolutePath(path);
+
+        if (!File.Exists(fullPath))
+        {
+            return new FileSystemInteractionResult.Failure(new NotFoundPath());
+        }
+
+        return new FileSystemInteractionResult.Success();
+    }
+
+    private string GetAbsolutePath(string path)
+    {
+        string absolutePath = Path.IsPathRooted(path) ? path : Path.Combine(_currentDirectory, path);
+        return Path.GetFullPath(absolutePath);
     }
 }

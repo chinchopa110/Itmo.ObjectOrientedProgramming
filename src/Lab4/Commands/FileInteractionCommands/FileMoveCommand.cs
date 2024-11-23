@@ -17,31 +17,17 @@ public class FileMoveCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        string fullCopyPath = GetAbsolutePath(_oldPath, context.FileSystem.CurrentDirectory);
-        string fullTargetPath = GetAbsolutePath(_newPath, context.FileSystem.CurrentDirectory);
-
-        if (!File.Exists(fullCopyPath) || !File.Exists(fullTargetPath))
+        if (context.FileSystem.IsValidePath(_oldPath) is FileSystemInteractionResult.Failure)
         {
             return new CommandExecuteResult.Failure(new NotFoundPath());
         }
 
-        if (CheckCollisions(fullTargetPath))
+        if (context.FileSystem.IsValidePath(_newPath) is FileSystemInteractionResult.Failure)
         {
-            return new CommandExecuteResult.Failure(new NameTaken());
+            return new CommandExecuteResult.Failure(new NotFoundPath());
         }
 
-        context.FileSystem.FileMove(fullCopyPath, fullTargetPath);
+        context.FileSystem.FileMove(_oldPath, _newPath);
         return new CommandExecuteResult.Success();
-    }
-
-    private string GetAbsolutePath(string path, string currentDirectory)
-    {
-        string absolutePath = Path.IsPathRooted(path) ? path : Path.Combine(currentDirectory, path);
-        return Path.GetFullPath(absolutePath);
-    }
-
-    private bool CheckCollisions(string filePath)
-    {
-        return File.Exists(filePath);
     }
 }
