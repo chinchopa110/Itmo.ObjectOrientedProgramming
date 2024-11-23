@@ -5,16 +5,16 @@ using Itmo.ObjectOrientedProgramming.Lab4.Processing.ResultTypes;
 
 namespace Itmo.ObjectOrientedProgramming.Lab4.Application.Context;
 
-public class DisconnectContext : IFileSystemContext
+public class FileSystemContext : IFileSystemContext
 {
     public IFileSystemStateHandler FileSystem { get; private set; }
 
-    public DisconnectContext()
+    public FileSystemContext()
     {
         FileSystem = new DisconnectFileSystemStateHandler();
     }
 
-    public FileSystemState State => FileSystemState.Connect;
+    public FileSystemState State => FileSystemState.Disconnect;
 
     public StateMoveResult Connect(string path)
     {

@@ -15,7 +15,7 @@ public class Program
 
     public static void Main(string[] args)
     {
-        var fileSystemService = new DisconnectContext();
+        var fileSystemService = new FileSystemContext();
         IParameterHandler handler = ParameterHandlerFactory.CreateParameterHandlerChain();
 
         var reader = new ConsoleReader(fileSystemService, handler, new ConsoleWriter());
