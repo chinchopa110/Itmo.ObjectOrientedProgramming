@@ -18,6 +18,7 @@ public class ParameterParserFactory
                 .AddNext(new ListCommandParser(new ListParameterParser<ListCommandBuilder>())))
             .AddNext(new FileCommandParser())
             .AddNext(new FileShowCommandParser(new ShowModeFlagParser<ConsoleFileShowCommandBuilder>()))
+            .AddNext(new FileCopyCommandParser())
             .AddNext(new FileDeleteCommandParser())
             .AddNext(new FileMoveCommandParser())
             .AddNext(new FileRenameCommandParser());

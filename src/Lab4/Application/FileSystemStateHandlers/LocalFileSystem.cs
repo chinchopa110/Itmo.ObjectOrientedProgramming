@@ -40,13 +40,25 @@ public class LocalFileSystem : IFileSystem
 
     public FileSystemInteractionResult FileMove(string sourcePath, string destinationPath)
     {
-        File.Move(GetAbsolutePath(sourcePath), GetAbsolutePath(destinationPath));
+        string sourceAbsolutePath = GetAbsolutePath(sourcePath);
+        string destinationAbsolutePath = GetAbsolutePath(destinationPath);
+
+        string fileName = Path.GetFileName(sourceAbsolutePath);
+        string newFilePath = Path.Combine(destinationAbsolutePath, fileName);
+
+        File.Move(sourceAbsolutePath, newFilePath);
         return new FileSystemInteractionResult.Success();
     }
 
     public FileSystemInteractionResult FileCopy(string sourcePath, string destinationPath)
     {
-        File.Copy(GetAbsolutePath(sourcePath), GetAbsolutePath(destinationPath), true);
+        string sourceAbsolutePath = GetAbsolutePath(sourcePath);
+        string destinationAbsolutePath = GetAbsolutePath(destinationPath);
+
+        string fileName = Path.GetFileName(sourceAbsolutePath);
+        string newFilePath = Path.Combine(destinationAbsolutePath, fileName);
+
+        File.Copy(sourceAbsolutePath, newFilePath, true);
         return new FileSystemInteractionResult.Success();
     }
 
