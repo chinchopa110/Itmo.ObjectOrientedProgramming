@@ -20,7 +20,7 @@ public class CopyFilePathCommand : ICommand
         if (context.FileSystem.IsValidFilePath(_copyPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
-        if (context.FileSystem.IsValidFilePath(_targetPath) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidDirectoryPath(_targetPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
         if (context.FileSystem.CheckCollisions(_targetPath) is FileSystemInteractionResult.Failure)
