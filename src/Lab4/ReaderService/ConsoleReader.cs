@@ -24,6 +24,12 @@ public class ConsoleReader : IReader
         using IEnumerator<string> request = args.GetEnumerator();
         ICommand? command;
 
+        if (!request.MoveNext())
+        {
+            _errorWriter.WriteLine("Empty command!");
+            return;
+        }
+
         command = _parameterParser.Handle(request);
 
         if (command == null)

@@ -17,10 +17,10 @@ public class CopyFilePathCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidPath(_copyPath) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidFilePath(_copyPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
-        if (context.FileSystem.IsValidPath(_targetPath) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidFilePath(_targetPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
         if (context.FileSystem.CheckCollisions(_targetPath) is FileSystemInteractionResult.Failure)

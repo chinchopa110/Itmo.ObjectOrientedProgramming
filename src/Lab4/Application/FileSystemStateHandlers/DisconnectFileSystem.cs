@@ -47,7 +47,15 @@ public class DisconnectFileSystem : IFileSystem
         return new FileSystemInteractionResult.Failure(new NotConnectError());
     }
 
-    public FileSystemInteractionResult IsValidPath(string path)
+    public FileSystemInteractionResult IsValidDirectoryPath(string path)
+    {
+        if (!Directory.Exists(path))
+            return new FileSystemInteractionResult.Failure(new NotFoundPath());
+
+        return new FileSystemInteractionResult.Success();
+    }
+
+    public FileSystemInteractionResult IsValidFilePath(string path)
     {
         return new FileSystemInteractionResult.Failure(new NotConnectError());
     }

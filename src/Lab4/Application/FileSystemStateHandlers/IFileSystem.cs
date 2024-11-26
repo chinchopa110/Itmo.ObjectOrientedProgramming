@@ -23,7 +23,9 @@ public interface IFileSystem
 
     FileSystemInteractionResult FileRename(string path, string newName);
 
-    FileSystemInteractionResult IsValidPath(string path);
+    FileSystemInteractionResult IsValidDirectoryPath(string path);
+
+    FileSystemInteractionResult IsValidFilePath(string path);
 
     FileSystemInteractionResult CheckCollisions(string filePath);
 }

@@ -15,7 +15,7 @@ public class LocalConnectCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidPath(_connectionPath) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidDirectoryPath(_connectionPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
         context.Connect(_connectionPath);

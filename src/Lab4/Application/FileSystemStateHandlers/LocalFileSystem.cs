@@ -72,7 +72,17 @@ public class LocalFileSystem : IFileSystem
         return new FileSystemInteractionResult.Success();
     }
 
-    public FileSystemInteractionResult IsValidPath(string path)
+    public FileSystemInteractionResult IsValidDirectoryPath(string path)
+    {
+        string fullPath = GetAbsolutePath(path);
+
+        if (!Directory.Exists(fullPath))
+            return new FileSystemInteractionResult.Failure(new NotFoundPath());
+
+        return new FileSystemInteractionResult.Success();
+    }
+
+    public FileSystemInteractionResult IsValidFilePath(string path)
     {
         string fullPath = GetAbsolutePath(path);
 

@@ -15,7 +15,7 @@ public class GoToCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidPath(_path) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidDirectoryPath(_path) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
         context.FileSystem.GoToDirectory(_path);

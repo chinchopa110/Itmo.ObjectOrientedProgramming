@@ -17,10 +17,10 @@ public class FileMoveCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidPath(_oldPath) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidFilePath(_oldPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
-        if (context.FileSystem.IsValidPath(_newPath) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidFilePath(_newPath) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
         if (context.FileSystem.CheckCollisions(_newPath) is FileSystemInteractionResult.Failure)

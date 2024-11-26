@@ -15,7 +15,7 @@ public class DeleteFileCommand : ICommand
 
     public CommandExecuteResult Execute(IFileSystemContext context)
     {
-        if (context.FileSystem.IsValidPath(_path) is FileSystemInteractionResult.Failure)
+        if (context.FileSystem.IsValidFilePath(_path) is FileSystemInteractionResult.Failure)
             return new CommandExecuteResult.Failure(new NotFoundPath());
 
         context.FileSystem.FileDelete(_path);
