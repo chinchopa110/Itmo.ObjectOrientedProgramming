@@ -17,7 +17,7 @@ public class ScenarioRunner : IScenarioRunner
         IEnumerable<IScenario> scenarios = GetScenarios();
 
         SelectionPrompt<IScenario> selector = new SelectionPrompt<IScenario>()
-            .Title("Выберите действие")
+            .Title("Выберите действие:")
             .AddChoices(scenarios)
             .UseConverter(x => x.Name);
 
