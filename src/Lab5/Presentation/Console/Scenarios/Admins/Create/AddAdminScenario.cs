@@ -18,11 +18,12 @@ public class AddAdminScenario : IScenario
 
     public void Run()
     {
-        CreateResults result = _createAccountService.CreateAdmin();
+        string systemPassword = AnsiConsole.Ask<string>("Введите новый системный пароль");
+        CreateResults result = _createAccountService.CreateAdmin(systemPassword);
 
         if (result is CreateResults.Success)
         {
-            AnsiConsole.MarkupLine($"[green]Админ создан успешно![/]");
+            AnsiConsole.MarkupLine("[green]Админ создан успешно![/]");
             System.Console.ReadKey();
         }
         else if (result is CreateResults.Failure failure)

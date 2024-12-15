@@ -4,5 +4,5 @@ namespace Contracts.Admins;
 
 public interface ICreateAdminService
 {
-    CreateResults CreateAdmin();
+    CreateResults CreateAdmin(string systemPassword);
 }

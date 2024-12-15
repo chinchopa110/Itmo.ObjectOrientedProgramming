@@ -15,10 +15,8 @@ public class SystemAdminFactory : ICreateAdminService
         _adminRepository = adminRepository;
     }
 
-    public CreateResults CreateAdmin()
+    public CreateResults CreateAdmin(string systemPassword)
     {
-        string systemPassword = "123456789";
-
         if (systemPassword.Length < 9)
             return new CreateResults.Failure(new ShortSystemPasswordError());
 
