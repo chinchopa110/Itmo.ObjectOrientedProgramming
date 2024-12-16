@@ -14,7 +14,7 @@ public class AddAccountScenario : IScenario
         _createAccountService = createAccountService;
     }
 
-    public string Name => "Add new account";
+    public string Name => "Создать новый счёт";
 
     public void Run()
     {

@@ -1,6 +1,7 @@
+using Console.Scenarios.Accounts.AccountsMenu.Actions;
 using Console.Scenarios.Accounts.AccountsMenu.Actions.Interfaces;
 
-namespace Console.Scenarios.Accounts.AccountsMenu.Actions.Factories;
+namespace Console.Scenarios.Accounts.Factories;
 
 public static class ActionsFactory
 {

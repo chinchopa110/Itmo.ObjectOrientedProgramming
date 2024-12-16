@@ -1,5 +1,5 @@
-using Console.Scenarios.Accounts.AccountsMenu.Actions.Factories;
 using Console.Scenarios.Accounts.AccountsMenu.Actions.Interfaces;
+using Console.Scenarios.Accounts.Factories;
 using Console.Scenarios.PresentationMenu;
 using Contracts.Users;
 using Spectre.Console;
