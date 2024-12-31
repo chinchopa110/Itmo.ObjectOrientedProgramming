@@ -1,4 +1,4 @@
-# About coure
+# About course
 The course was devoted to object-oriented programming in C#. Read more about each laboratory work with links to tasks.
 ## Lab-1: Train Simulation
 https://github.com/is-oop-y27/.github/blob/master/profile/labs/lab-1.md  
