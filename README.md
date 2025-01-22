@@ -14,4 +14,4 @@ https://github.com/is-oop-y27/.github/blob/master/profile/labs/lab-4.md
 OOP, Behavioral Patterns, Structural Patterns, Creational Patterns, SOLID, GRASP, Unit Testing, Mocking
 ## Lab-5: ATM system
 https://github.com/is-oop-y27/.github/blob/master/profile/labs/lab-5.md  
-Software Application Architecture, OOP, Behavioral Patterns, Structural Patterns, Creational Patterns, SOLID, GRASP, PostreSQL, Docker, Unit Testing, Mocking
+Software Application Architecture, OOP, Behavioral Patterns, Structural Patterns, Creational Patterns, SOLID, GRASP, PostgreSQL, Docker, Unit Testing, Mocking
